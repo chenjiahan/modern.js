@@ -4,14 +4,14 @@
         <title>Modern.js - 现代 Web 工程体系 Blog</title>
         <link>https://modernjs.dev/en/blog</link>
         <description>Modern.js - 现代 Web 工程体系 Blog</description>
-        <lastBuildDate>Thu, 10 Mar 2022 07:45:30 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 11 Mar 2022 12:53:48 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[近期更新：支持 Windows、初步提供部署功能]]></title>
             <link>https://modernjs.dev/en/blog/release-windows-deploy</link>
             <guid>release-windows-deploy</guid>
-            <pubDate>Thu, 10 Mar 2022 07:45:30 GMT</pubDate>
+            <pubDate>Fri, 11 Mar 2022 12:53:48 GMT</pubDate>
             <description><![CDATA[1. 支持 Windows 平台]]></description>
         </item>
     </channel>
