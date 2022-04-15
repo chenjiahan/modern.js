@@ -1,11 +1,17 @@
 import { useAppContext, useResolvedConfigContext } from '@modern-js/core';
+import webpack from '../compiled/webpack';
 import {
   ClientWebpackConfig,
   ModernWebpackConfig,
   NodeWebpackConfig,
 } from './config';
 
-export type { Configuration } from 'webpack';
+export { webpack };
+export type {
+  LoaderContext,
+  Configuration,
+  StatsCompilation,
+} from '../compiled/webpack';
 export { BaseWebpackConfig } from './config/base';
 
 export enum WebpackConfigTarget {

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import type HtmlWebpackPlugin from 'html-webpack-plugin';
-import { Compiler, Compilation, sources } from 'webpack';
+import { Compiler, Compilation, sources } from '../../compiled/webpack';
 
 export class AppIconPlugin {
   htmlWebpackPlugin: typeof HtmlWebpackPlugin;

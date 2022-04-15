@@ -6,7 +6,7 @@
  * modified from https://github.com/facebook/create-react-app/blob/master/packages/react-dev-utils/InlineChunkHtmlPlugin.js
  */
 import HtmlWebpackPlugin, { HtmlTagObject } from 'html-webpack-plugin';
-import { Compiler, Compilation } from 'webpack';
+import type { Compiler, Compilation } from '../../compiled/webpack';
 import { isString } from '@modern-js/utils';
 
 export class InlineChunkHtmlPlugin {

@@ -15,7 +15,7 @@ import webpack, {
   DefinePlugin,
   HotModuleReplacementPlugin,
   ProvidePlugin,
-} from 'webpack';
+} from '../../compiled/webpack';
 import { Entrypoint } from '@modern-js/types';
 import CopyPlugin from 'copy-webpack-plugin';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';

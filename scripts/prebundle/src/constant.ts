@@ -62,4 +62,9 @@ export const TASKS: Task[] = [
       'chokidar',
     ],
   },
+  {
+    packageDir: 'cli/webpack',
+    packageName: '@modern-js/webpack',
+    dependencies: ['webpack'],
+  },
 ];

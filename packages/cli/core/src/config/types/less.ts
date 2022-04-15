@@ -1,4 +1,4 @@
-import type { LoaderContext } from 'webpack';
+import type { LoaderContext } from '@modern-js/webpack';
 import type Less from 'less';
 
 export type LessLoaderOptions = {

@@ -2,7 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'http';
 import type { NextFunction, BffProxyOptions } from '@modern-js/types';
 import type { MetaOptions } from '@modern-js/utils';
 import type { TransformOptions } from '@babel/core';
-import type { Configuration as WebpackConfiguration } from 'webpack';
+import type { Configuration as WebpackConfiguration } from '@modern-js/webpack';
 import autoprefixer from 'autoprefixer';
 import type {
   BasePluginOptions,

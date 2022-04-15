@@ -1,5 +1,9 @@
-import { Configuration, webpack } from 'webpack';
-import { WebpackConfigTarget, getWebpackConfig } from '@modern-js/webpack';
+import {
+  webpack,
+  Configuration,
+  WebpackConfigTarget,
+  getWebpackConfig,
+} from '@modern-js/webpack';
 import { manager, PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import {
   formatWebpackMessages,

@@ -14,7 +14,7 @@ import {
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import webpack, { IgnorePlugin } from 'webpack';
+import webpack, { IgnorePlugin } from '../../compiled/webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { merge } from 'webpack-merge';

@@ -1,5 +1,5 @@
 import type HtmlWebpackPlugin from 'html-webpack-plugin';
-import { Compiler, Compilation } from 'webpack';
+import type { Compiler, Compilation } from '../../compiled/webpack';
 
 const bottomTemplateReg = /<!--<\?-\s*bottomTemplate\s*\?>-->/;
 const bodyRegExp = /(<\/\s*body\s*>)/i;
