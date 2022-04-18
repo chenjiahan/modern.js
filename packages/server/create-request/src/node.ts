@@ -1,7 +1,7 @@
 import qs from 'querystring';
 import nodeFetch from 'node-fetch';
 import { compile, pathToRegexp, Key } from 'path-to-regexp';
-import { useHeaders } from '@modern-js/plugin-ssr/node';
+import { useHeaders } from '@modern-js/utils';
 import { handleRes } from './handleRes';
 import type {
   BFFRequestPayload,
@@ -16,9 +16,9 @@ let realAllowedHeaders: string[] = [];
 const originFetch = (...params: Parameters<typeof nodeFetch>) =>
   nodeFetch(...params).then(handleRes);
 
-export const configure = (options: IOptions<typeof nodeFetch>) => {
+export const configure = (options: IOptions) => {
   const { request, interceptor, allowedHeaders } = options;
-  realRequest = (request as Fetch) || originFetch;
+  realRequest = request || originFetch;
   if (interceptor && !request) {
     realRequest = interceptor(nodeFetch);
   }
