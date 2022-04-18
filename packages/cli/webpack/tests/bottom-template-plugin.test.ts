@@ -3,8 +3,8 @@
  */
 import path from 'path';
 import fs from 'fs';
-import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+import webpack from '../compiled/webpack';
+import HtmlWebpackPlugin from '../compiled/html-webpack-plugin';
 import { BottomTemplatePlugin } from '../src/plugins/bottom-template-plugin';
 
 const bottomTemplateReg = /<!--<\?-\s*bottomTemplate\s*\?>-->/;

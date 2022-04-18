@@ -1,4 +1,4 @@
-import type HtmlWebpackPlugin from 'html-webpack-plugin';
+import type HtmlWebpackPlugin from '../../compiled/html-webpack-plugin';
 import type { Compiler, Compilation } from '../../compiled/webpack';
 
 const bottomTemplateReg = /<!--<\?-\s*bottomTemplate\s*\?>-->/;

@@ -23,7 +23,7 @@ function emitDts(task: ParsedTask) {
   try {
     // eslint-disable-next-line no-new
     new DtsPacker({
-      cwd: task.packagePath,
+      cwd: process.cwd(),
       name: task.depName,
       typesRoot: task.distPath,
     });
@@ -46,8 +46,15 @@ function emitDts(task: ParsedTask) {
 
   // Fix lodash types, copy `common` folder
   if (task.depName === 'lodash') {
-    const from = join(task.packagePath, 'node_modules/@types/lodash/common');
+    const from = join(process.cwd(), 'node_modules/@types/lodash/common');
     fs.copySync(from, join(task.distPath, 'common'));
+  }
+
+  if (task.depName === 'html-webpack-plugin') {
+    fs.renameSync(
+      join(task.distPath, 'tapable', 'tapable.d.ts'),
+      join(task.distPath, 'tapable', 'index.d.ts'),
+    );
   }
 }
 
@@ -82,7 +89,7 @@ function emitLicense(task: ParsedTask) {
 export async function prebundle(task: ParsedTask) {
   console.log(`==== Start prebundle "${task.depName}" ====`);
 
-  const entry = require.resolve(task.depPath);
+  const entry = require.resolve(task.depName);
   const { code, assets } = await ncc(entry, {
     minify: task.minify,
     externals: task.externals,

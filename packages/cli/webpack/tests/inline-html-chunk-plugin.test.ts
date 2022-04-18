@@ -3,8 +3,8 @@
  */
 import path from 'path';
 import fs from 'fs';
-import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+import webpack from '../compiled/webpack';
+import HtmlWebpackPlugin from '../compiled/html-webpack-plugin';
 import { InlineChunkHtmlPlugin } from '../src/plugins/inline-html-chunk-plugin';
 
 const appDir = path.join(__dirname, 'fixtures/inline-chunk-template');

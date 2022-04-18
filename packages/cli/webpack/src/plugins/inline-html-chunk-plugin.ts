@@ -5,9 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  * modified from https://github.com/facebook/create-react-app/blob/master/packages/react-dev-utils/InlineChunkHtmlPlugin.js
  */
-import HtmlWebpackPlugin, { HtmlTagObject } from 'html-webpack-plugin';
-import type { Compiler, Compilation } from '../../compiled/webpack';
 import { isString } from '@modern-js/utils';
+import type { Compiler, Compilation } from '../../compiled/webpack';
+import HtmlWebpackPlugin, {
+  HtmlTagObject,
+} from '../../compiled/html-webpack-plugin';
 
 export class InlineChunkHtmlPlugin {
   htmlWebpackPlugin: typeof HtmlWebpackPlugin;

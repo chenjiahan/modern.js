@@ -65,6 +65,14 @@ export const TASKS: Task[] = [
   {
     packageDir: 'cli/webpack',
     packageName: '@modern-js/webpack',
-    dependencies: ['webpack'],
+    dependencies: [
+      'webpack',
+      {
+        name: 'html-webpack-plugin',
+        externals: {
+          webpack: '../webpack',
+        },
+      },
+    ],
   },
 ];

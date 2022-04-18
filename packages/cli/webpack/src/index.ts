@@ -8,6 +8,10 @@ import {
 
 export { webpack };
 export type {
+  Stats,
+  Compiler,
+  Compilation,
+  MultiCompiler,
   LoaderContext,
   Configuration,
   StatsCompilation,

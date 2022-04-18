@@ -7,7 +7,7 @@ import http, {
 import path from 'path';
 import { createServer as createHttpsServer } from 'https';
 import { API_DIR, SERVER_DIR, SHARED_DIR } from '@modern-js/utils';
-import type { MultiCompiler, Compiler } from 'webpack';
+import type { Compiler, MultiCompiler } from '@modern-js/webpack';
 import webpackDevMiddleware, { Headers } from 'webpack-dev-middleware';
 import {
   createProxyHandler,
