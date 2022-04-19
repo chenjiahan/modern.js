@@ -25,6 +25,17 @@
         "require": "./dist/index.js"
       },
       "default": "./dist/index.js"
+    },
+    "./webpack": {
+      "jsnext:source": "./compiled/webpack/index.js",
+      "default": "./compiled/webpack/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "webpack": [
+        "./compiled/webpack/types.d.ts"
+      ]
     }
   },
   "scripts": {

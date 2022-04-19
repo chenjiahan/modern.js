@@ -14,12 +14,12 @@ import {
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import webpack, { IgnorePlugin } from '../../compiled/webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { merge } from 'webpack-merge';
 import WebpackBar from 'webpackbar';
 import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
+import webpack, { IgnorePlugin } from '../../compiled/webpack';
 import {
   CSS_REGEX,
   JS_REGEX,
@@ -33,7 +33,6 @@ import {
 } from '../utils/constants';
 import { createCSSRule, enableCssExtract } from '../utils/createCSSRule';
 import { mergeRegex } from '../utils/mergeRegex';
-import { getWebpackLogging } from '../utils/getWebpackLogging';
 import { getBabelOptions } from '../utils/getBabelOptions';
 import { ModuleScopePlugin } from '../plugins/module-scope-plugin';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
@@ -598,7 +597,7 @@ class BaseWebpackConfig {
         'webpack',
       ),
       buildDependencies: {
-        defaultWebpack: [require.resolve('webpack/lib')],
+        defaultWebpack: [require.resolve('@modern-js/webpack/webpack')],
         config: [__filename, this.appContext.configFile].filter(Boolean),
         tsconfig: [
           this.isTsProject &&
@@ -649,7 +648,7 @@ class BaseWebpackConfig {
 
   stats() {
     this.chain.stats('none');
-    this.chain.merge({ infrastructureLogging: getWebpackLogging() });
+    this.chain.merge({ infrastructureLogging: { level: 'info' } });
   }
 
   config() {
