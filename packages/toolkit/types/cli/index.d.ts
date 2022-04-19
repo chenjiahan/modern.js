@@ -1,8 +1,5 @@
 import { AsyncWaterfall, AsyncWorkflow } from '@modern-js/plugin';
-import { Compiler, MultiCompiler, Configuration } from 'webpack';
 import { ServerRoute } from '../server';
-
-export type { Compiler, MultiCompiler, Configuration };
 
 /**
  * Bundle entrypoint
@@ -73,27 +70,9 @@ export interface IAppContext {
 export interface Hooks {
   beforeDev: AsyncWorkflow<void, unknown>;
   afterDev: AsyncWorkflow<void, unknown>;
-  beforeCreateCompiler: AsyncWorkflow<
-    {
-      webpackConfigs: Configuration[];
-    },
-    unknown
-  >;
-  afterCreateCompiler: AsyncWorkflow<
-    {
-      compiler: Compiler | MultiCompiler | undefined;
-    },
-    unknown
-  >;
   beforePrintInstructions: AsyncWaterfall<{
     instructions: string;
   }>;
-  beforeBuild: AsyncWorkflow<
-    {
-      webpackConfigs: Configuration[];
-    },
-    unknown
-  >;
   afterBuild: AsyncWorkflow<void, unknown>;
   afterMonorepoDeploy: AsyncWorkflow<
     { operator: any; deployProjectNames: string[] },

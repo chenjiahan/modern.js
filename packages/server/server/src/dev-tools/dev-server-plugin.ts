@@ -23,8 +23,7 @@ export default class DevServerPlugin {
     const clientEntry = `${require.resolve(
       '@modern-js/hmr-client',
     )}?${host}${path}${port}`;
-    const hotEntry = require.resolve('webpack/hot/dev-server');
-    const additionalEntries = [clientEntry, hotEntry];
+    const additionalEntries = [clientEntry];
 
     // use a hook to add entries if available
     for (const additionalEntry of additionalEntries) {
@@ -38,7 +37,6 @@ export default class DevServerPlugin {
     compilerOptions.plugins = compilerOptions.plugins || [];
 
     if (
-      hotEntry &&
       !compilerOptions.plugins.find(
         p => p.constructor === webpack.HotModuleReplacementPlugin,
       )

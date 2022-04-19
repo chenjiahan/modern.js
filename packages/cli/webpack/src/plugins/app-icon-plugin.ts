@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import type HtmlWebpackPlugin from '../../compiled/html-webpack-plugin';
+import type HtmlWebpackPlugin from 'html-webpack-plugin';
 import { Compiler, Compilation, sources } from '../../compiled/webpack';
 
 export class AppIconPlugin {
@@ -22,7 +22,7 @@ export class AppIconPlugin {
     // add html asset tags
     compiler.hooks.compilation.tap(this.name, (compilation: Compilation) => {
       this.htmlWebpackPlugin
-        .getHooks(compilation)
+        .getHooks(compilation as any)
         .alterAssetTagGroups.tap(this.name, data => {
           data.headTags.unshift({
             tagName: 'link',

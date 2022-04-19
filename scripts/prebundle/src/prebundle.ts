@@ -1,8 +1,8 @@
-import { join } from 'path';
+import { join, basename } from 'path';
 import ncc from '@vercel/ncc';
 import { Package as DtsPacker } from 'dts-packer';
 import fs from 'fs-extra';
-import { ParsedTask, pick } from './helper';
+import { ParsedTask, pick, replaceFileContent } from './helper';
 
 function emitAssets(
   assets: Record<string, { source: string }>,
@@ -20,6 +20,14 @@ function emitIndex(code: string, distPath: string) {
 }
 
 function emitDts(task: ParsedTask) {
+  // Fix webpack-manifest-plugin types
+  if (task.depName === 'webpack-manifest-plugin') {
+    const pkgPath = require.resolve('webpack-manifest-plugin/package.json');
+    const content = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+    content.types = 'dist/index.d.ts';
+    fs.writeFileSync(pkgPath, JSON.stringify(content));
+  }
+
   try {
     // eslint-disable-next-line no-new
     new DtsPacker({
@@ -34,27 +42,20 @@ function emitDts(task: ParsedTask) {
 
   // Fix "declare module 'xxx'"
   if (task.depName === 'upath') {
-    const filePath = join(task.distPath, 'upath.d.ts');
-    const content = fs.readFileSync(filePath, 'utf-8');
-    const newContent = `${content.replace(
-      'declare module "upath"',
-      'declare namespace upath',
-    )}\nexport = upath;`;
-
-    fs.writeFileSync(filePath, newContent);
+    replaceFileContent(
+      join(task.distPath, 'upath.d.ts'),
+      content =>
+        `${content.replace(
+          'declare module "upath"',
+          'declare namespace upath',
+        )}\nexport = upath;`,
+    );
   }
 
   // Fix lodash types, copy `common` folder
   if (task.depName === 'lodash') {
     const from = join(process.cwd(), 'node_modules/@types/lodash/common');
     fs.copySync(from, join(task.distPath, 'common'));
-  }
-
-  if (task.depName === 'html-webpack-plugin') {
-    fs.renameSync(
-      join(task.distPath, 'tapable', 'tapable.d.ts'),
-      join(task.distPath, 'tapable', 'index.d.ts'),
-    );
   }
 }
 
@@ -86,6 +87,14 @@ function emitLicense(task: ParsedTask) {
   }
 }
 
+function emitExtraFiles(task: ParsedTask) {
+  const { emitFiles } = task;
+  emitFiles.forEach(item => {
+    const path = join(task.distPath, item.path);
+    fs.outputFileSync(path, item.content);
+  });
+}
+
 export async function prebundle(task: ParsedTask) {
   console.log(`==== Start prebundle "${task.depName}" ====`);
 
@@ -101,6 +110,7 @@ export async function prebundle(task: ParsedTask) {
   emitDts(task);
   emitLicense(task);
   emitPackageJson(task);
+  emitExtraFiles(task);
 
   console.log(`==== Finish prebundle "${task.depName}" ====\n\n`);
 }

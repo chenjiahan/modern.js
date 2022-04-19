@@ -4,6 +4,11 @@ export const ROOT_DIR = join(__dirname, '..', '..', '..');
 export const PACKAGES_DIR = join(ROOT_DIR, 'packages');
 export const DIST_DIR = 'compiled';
 
+export type ImportMap = {
+  path: string;
+  content: string;
+};
+
 type Task = {
   packageDir: string;
   packageName: string;
@@ -16,6 +21,8 @@ type Task = {
         minify?: boolean;
         /** External some sub-dependencies. */
         externals?: Record<string, string>;
+        /** Extra entry files to map imports */
+        emitFiles?: ImportMap[];
         /** Copy fields from original package.json to target package.json. */
         packageJsonField?: string[];
       }
@@ -66,11 +73,43 @@ export const TASKS: Task[] = [
     packageDir: 'cli/webpack',
     packageName: '@modern-js/webpack',
     dependencies: [
-      'webpack',
       {
-        name: 'html-webpack-plugin',
+        name: 'webpack',
+        minify: false,
+        emitFiles: [
+          {
+            path: '/lib/NormalModule.js',
+            content: `module.exports = require('../').NormalModule;`,
+          },
+          {
+            path: '/lib/RuntimeGlobals.js',
+            content: `module.exports = require('../').RuntimeGlobals;`,
+          },
+          {
+            path: '/lib/RuntimeModule.js',
+            content: `module.exports = require('../').RuntimeModule;`,
+          },
+          {
+            path: '/lib/SingleEntryPlugin.js',
+            content: `module.exports = require('../').SingleEntryPlugin;`,
+          },
+          {
+            path: '/lib/ModuleFilenameHelpers.js',
+            content: `module.exports = require('../').ModuleFilenameHelpers;`,
+          },
+        ],
+      },
+      {
+        name: 'webpack-dev-middleware',
         externals: {
           webpack: '../webpack',
+        },
+      },
+      {
+        name: 'webpack-manifest-plugin',
+        externals: {
+          webpack: '../webpack',
+          'webpack/lib/NormalModule': '../webpack/lib/NormalModule',
         },
       },
     ],

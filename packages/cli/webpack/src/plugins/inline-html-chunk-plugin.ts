@@ -9,7 +9,7 @@ import { isString } from '@modern-js/utils';
 import type { Compiler, Compilation } from '../../compiled/webpack';
 import HtmlWebpackPlugin, {
   HtmlTagObject,
-} from '../../compiled/html-webpack-plugin';
+} from 'html-webpack-plugin';
 
 export class InlineChunkHtmlPlugin {
   htmlWebpackPlugin: typeof HtmlWebpackPlugin;
@@ -104,7 +104,7 @@ export class InlineChunkHtmlPlugin {
         const tagFunction = (tag: HtmlTagObject) =>
           this.getInlinedTag(publicPath as string, compilation.assets, tag);
 
-        const hooks = this.htmlWebpackPlugin.getHooks(compilation);
+        const hooks = this.htmlWebpackPlugin.getHooks(compilation as any);
 
         hooks.alterAssetTagGroups.tap('InlineChunkHtmlPlugin', assets => {
           const deferScriptTags = [];

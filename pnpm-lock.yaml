@@ -1856,6 +1856,7 @@ importers:
       file-loader: ^6.2.0
       fork-ts-checker-webpack-plugin: ^7.2.1
       html-loader: ^2.1.2
+      html-webpack-plugin: ^5.5.0
       jest: ^27
       json-loader: ^0.5.7
       markdown-loader: ^6.0.0
@@ -1874,7 +1875,6 @@ importers:
       url-loader: ^4.1.1
       webpack-bundle-analyzer: ^4.5.0
       webpack-chain: ^6.5.1
-      webpack-manifest-plugin: ^4.0.2
       webpack-merge: ^5.8.0
       webpack-node-externals: ^3.0.0
       webpackbar: ^5.0.0-3
@@ -1895,6 +1895,7 @@ importers:
       file-loader: 6.2.0
       fork-ts-checker-webpack-plugin: 7.2.1_typescript@4.5.4
       html-loader: 2.1.2
+      html-webpack-plugin: 5.5.0
       json-loader: 0.5.7
       markdown-loader: 6.0.0
       mini-css-extract-plugin: 2.4.5
@@ -1910,7 +1911,6 @@ importers:
       url-loader: 4.1.1_file-loader@6.2.0
       webpack-bundle-analyzer: 4.5.0
       webpack-chain: 6.5.1
-      webpack-manifest-plugin: 4.0.2
       webpack-merge: 5.8.0
       webpack-node-externals: 3.0.0
       webpackbar: 5.0.2
@@ -3603,7 +3603,6 @@ importers:
       '@types/jest': ^26
       '@types/minimatch': ^3.0.5
       '@types/node': ^14
-      '@types/webpack-dev-middleware': ^5.0.2
       '@types/ws': ^7.4.7
       devcert: ^1.1.3
       jest: ^27
@@ -3612,7 +3611,6 @@ importers:
       path-to-regexp: ^6.2.0
       tsconfig-paths: ^3.11.0
       typescript: ^4
-      webpack-dev-middleware: ^5.0.0
       websocket: ^1
       ws: ^8.2.0
     dependencies:
@@ -3627,7 +3625,6 @@ importers:
       minimatch: 3.0.4
       path-to-regexp: 6.2.0
       tsconfig-paths: 3.12.0
-      webpack-dev-middleware: 5.3.0
       ws: 8.4.0
     devDependencies:
       '@modern-js/core': link:../../cli/core
@@ -3639,7 +3636,6 @@ importers:
       '@types/jest': 26.0.24
       '@types/minimatch': 3.0.5
       '@types/node': 14.18.4
-      '@types/webpack-dev-middleware': 5.3.0
       '@types/ws': 7.4.7
       jest: 27.4.5
       typescript: 4.5.4
@@ -4298,15 +4294,11 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      esbuild: ^0.13.13
       http-proxy-middleware: ^2.0.4
       jest: ^27
-      webpack: ^5.54.0
     dependencies:
       '@modern-js/plugin': link:../plugin
-      esbuild: 0.13.15
       http-proxy-middleware: 2.0.4
-      webpack: 5.71.0_esbuild@0.13.15
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -4442,6 +4434,8 @@ importers:
       typescript: ^4
       upath: 2.0.1
       webpack: 5.72.0
+      webpack-dev-middleware: 5.3.1
+      webpack-manifest-plugin: 4.1.1
     dependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
       '@scripts/build': link:../build
@@ -4478,6 +4472,8 @@ importers:
       strip-ansi: 6.0.1
       upath: 2.0.1
       webpack: 5.72.0_esbuild@0.13.15
+      webpack-dev-middleware: 5.3.1_webpack@5.72.0
+      webpack-manifest-plugin: 4.1.1_webpack@5.72.0
 
   tests:
     specifiers:
@@ -15577,14 +15573,6 @@ packages:
       - webpack-cli
     dev: true
 
-  /@types/webpack-dev-middleware/5.3.0:
-    resolution: {integrity: sha512-SklLlklFBfTyIXo1iWXxzeytjlysWfj5QfIcRJrCc7MgzuCjnZOHXviQwe81iFGq9ZkCUXAg2fpbZdHhj5lSWA==}
-    dependencies:
-      webpack-dev-middleware: 5.3.0
-    transitivePeerDependencies:
-      - webpack
-    dev: true
-
   /@types/webpack-dev-middleware/5.3.0_webpack@5.71.0:
     resolution: {integrity: sha512-SklLlklFBfTyIXo1iWXxzeytjlysWfj5QfIcRJrCc7MgzuCjnZOHXviQwe81iFGq9ZkCUXAg2fpbZdHhj5lSWA==}
     dependencies:
@@ -24787,7 +24775,6 @@ packages:
       webpack: ^5.20.0
     dependencies:
       '@types/html-minifier-terser': 6.1.0
-      esbuild: 0.13.15
       html-minifier-terser: 6.1.0
       lodash: 4.17.21
       pretty-error: 4.0.0
@@ -34934,8 +34921,7 @@ packages:
     dev: false
 
   /source-list-map/2.0.1:
-    resolution: {integrity: sha1-OZO9hzv8SEecyp6jpUeDXHwVSzQ=}
-    dev: false
+    resolution: {integrity: sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw==}
 
   /source-map-js/1.0.1:
     resolution: {integrity: sha512-4+TN2b3tqOCd/kaGRJ/sTYA0tR0mdXx26ipdolxcwtJVqEnqNYvlCAt1q3ypy4QMlYus+Zh34RNtYLoq2oQ4IA==}
@@ -37859,6 +37845,7 @@ packages:
       mime-types: 2.1.34
       range-parser: 1.2.1
       schema-utils: 4.0.0
+    dev: false
 
   /webpack-dev-middleware/5.3.0_webpack@5.71.0:
     resolution: {integrity: sha512-MouJz+rXAm9B1OTOYaJnn6rtD/lWZPy2ufQCH3BPs8Rloh/Du6Jze4p7AeLYHkVi0giJnYLaSGDC7S+GM9arhg==}
@@ -37881,12 +37868,27 @@ packages:
       webpack: ^4.0.0 || ^5.0.0
     dependencies:
       colorette: 2.0.16
+      esbuild: 0.13.15
       memfs: 3.4.1
       mime-types: 2.1.34
       range-parser: 1.2.1
       schema-utils: 4.0.0
       webpack: 5.71.0_esbuild@0.13.15
     dev: false
+
+  /webpack-dev-middleware/5.3.1_webpack@5.72.0:
+    resolution: {integrity: sha512-81EujCKkyles2wphtdrnPg/QqegC/AtqNH//mQkBYSMqwFVCQrxM6ktB2O/SPlZy7LqeEfTbV3cZARGQz6umhg==}
+    engines: {node: '>= 12.13.0'}
+    peerDependencies:
+      webpack: ^4.0.0 || ^5.0.0
+    dependencies:
+      colorette: 2.0.16
+      memfs: 3.4.1
+      mime-types: 2.1.34
+      range-parser: 1.2.1
+      schema-utils: 4.0.0
+      webpack: 5.72.0_esbuild@0.13.15
+    dev: true
 
   /webpack-dev-server/4.7.2:
     resolution: {integrity: sha512-s6yEOSfPpB6g1T2+C5ZOUt5cQOMhjI98IVmmvMNb5cdiqHoxSUfACISHqU/wZy+q4ar/A9jW0pbNj7sa50XRVA==}
@@ -38012,15 +38014,16 @@ packages:
       uuid: 3.4.0
     dev: false
 
-  /webpack-manifest-plugin/4.0.2:
-    resolution: {integrity: sha512-Ld6j05pRblXAVoX8xdXFDsc/s97cFnR1FOmQawhTSlp6F6aeU1Jia5aqTmDpkueaAz8g9sXpgSOqmEgVAR61Xw==}
+  /webpack-manifest-plugin/4.1.1_webpack@5.72.0:
+    resolution: {integrity: sha512-YXUAwxtfKIJIKkhg03MKuiFAD72PlrqCiwdwO4VEXdRO5V0ORCNwaOwAZawPZalCbmH9kBDmXnNeQOw+BIEiow==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
       webpack: ^4.44.2 || ^5.47.0
     dependencies:
       tapable: 2.2.1
+      webpack: 5.72.0_esbuild@0.13.15
       webpack-sources: 2.3.1
-    dev: false
+    dev: true
 
   /webpack-merge/5.8.0:
     resolution: {integrity: sha512-/SaI7xY0831XwP6kzuwhKWVKDP9t1QY1h65lAFLbZqMPIuYcD9QAW4u9STIbU9kaJbPBB/geU/gLr1wDjOhQ+Q==}
@@ -38050,7 +38053,7 @@ packages:
     dependencies:
       source-list-map: 2.0.1
       source-map: 0.6.1
-    dev: false
+    dev: true
 
   /webpack-sources/3.2.2:
     resolution: {integrity: sha512-cp5qdmHnu5T8wRg2G3vZZHoJPN14aqQ89SyQ11NpGH5zEMDCclt49rzo+MaRazk7/UeILhAI+/sEtcM+7Fr0nw==}

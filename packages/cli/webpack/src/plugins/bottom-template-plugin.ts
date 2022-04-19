@@ -1,4 +1,4 @@
-import type HtmlWebpackPlugin from '../../compiled/html-webpack-plugin';
+import type HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { Compiler, Compilation } from '../../compiled/webpack';
 
 const bottomTemplateReg = /<!--<\?-\s*bottomTemplate\s*\?>-->/;
@@ -17,7 +17,7 @@ export class BottomTemplatePlugin {
   apply(compiler: Compiler) {
     compiler.hooks.compilation.tap(this.name, (compilation: Compilation) => {
       this.htmlWebpackPlugin
-        .getHooks(compilation)
+        .getHooks(compilation as any)
         .beforeEmit.tap(this.name, data => {
           if (!data.plugin.options?.__internal__) {
             return data;

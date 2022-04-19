@@ -7,8 +7,11 @@ import http, {
 import path from 'path';
 import { createServer as createHttpsServer } from 'https';
 import { API_DIR, SERVER_DIR, SHARED_DIR } from '@modern-js/utils';
-import type { Compiler, MultiCompiler } from '@modern-js/webpack';
-import webpackDevMiddleware, { Headers } from 'webpack-dev-middleware';
+import {
+  Compiler,
+  MultiCompiler,
+  webpackDevMiddleware,
+} from '@modern-js/webpack';
 import {
   createProxyHandler,
   NextFunction,
@@ -257,7 +260,7 @@ export class ModernDevServer extends ModernServer {
   private setupDevMiddleware(compiler: MultiCompiler | Compiler) {
     const { conf } = this;
     this.devMiddleware = webpackDevMiddleware(compiler, {
-      headers: conf.tools?.devServer?.headers as Headers<
+      headers: conf.tools?.devServer?.headers as webpackDevMiddleware.Headers<
         IncomingMessage,
         ServerResponse
       >,

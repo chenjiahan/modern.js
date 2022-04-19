@@ -431,6 +431,11 @@ declare interface BannerPluginOptions {
 	exclude?: string | RegExp | Rule[];
 
 	/**
+	 * If true, banner will be placed at the end of the output.
+	 */
+	footer?: boolean;
+
+	/**
 	 * Include all modules matching any of these conditions.
 	 */
 	include?: string | RegExp | Rule[];
@@ -474,9 +479,10 @@ declare abstract class BasicEvaluatedExpression {
 	prefix?: BasicEvaluatedExpression;
 	postfix?: BasicEvaluatedExpression;
 	wrappedInnerExpressions: any;
-	identifier?: string;
+	identifier?: string | VariableInfoInterface;
 	rootInfo: VariableInfoInterface;
 	getMembers: () => string[];
+	getMembersOptionals: () => boolean[];
 	expression: NodeEstreeIndex;
 	isUnknown(): boolean;
 	isNull(): boolean;
@@ -528,7 +534,8 @@ declare abstract class BasicEvaluatedExpression {
 	setIdentifier(
 		identifier?: any,
 		rootInfo?: any,
-		getMembers?: any
+		getMembers?: any,
+		getMembersOptionals?: any
 	): BasicEvaluatedExpression;
 	setWrapped(
 		prefix?: any,
@@ -681,6 +688,7 @@ declare interface CallExpressionInfo {
 	getCalleeMembers: () => string[];
 	name: string;
 	getMembers: () => string[];
+	getMembersOptionals: () => boolean[];
 }
 declare interface CallbackAsyncQueue<T> {
 	(err?: null | WebpackError, result?: T): any;
@@ -809,6 +817,13 @@ declare class ChunkGraph {
 		chunk: Chunk,
 		sourceType: string
 	): undefined | Iterable<Module>;
+	setChunkModuleSourceTypes(
+		chunk: Chunk,
+		module: Module,
+		sourceTypes: Set<string>
+	): void;
+	getChunkModuleSourceTypes(chunk: Chunk, module: Module): Set<string>;
+	getModuleSourceTypes(module: Module): Set<string>;
 	getOrderedChunkModulesIterable(
 		chunk: Chunk,
 		comparator: (arg0: Module, arg1: Module) => 0 | 1 | -1
@@ -1239,6 +1254,16 @@ declare interface CodeGenerationContext {
 	 * code generation results of other modules (need to have a codeGenerationDependency to use that)
 	 */
 	codeGenerationResults: CodeGenerationResults;
+
+	/**
+	 * the compilation
+	 */
+	compilation?: Compilation;
+
+	/**
+	 * source types
+	 */
+	sourceTypes?: ReadonlySet<string>;
 }
 declare interface CodeGenerationResult {
 	/**
@@ -2454,7 +2479,7 @@ declare interface ContainerReferencePluginOptions {
 	shareScope?: string;
 }
 declare abstract class ContextElementDependency extends ModuleDependency {
-	referencedExports: any;
+	referencedExports?: string[][];
 }
 declare class ContextExclusionPlugin {
 	constructor(negativeMatcher: RegExp);
@@ -2526,7 +2551,7 @@ declare interface ContextModuleOptions {
 	 * exports referenced from modules (won't be mangled)
 	 */
 	referencedExports?: string[][];
-	resource: string;
+	resource: string | false | string[];
 	resourceQuery?: string;
 	resourceFragment?: string;
 	resolveOptions: any;
@@ -2637,6 +2662,7 @@ declare class Dependency {
 		endLine?: any,
 		endColumn?: any
 	): void;
+	getContext(): undefined | string;
 	getResourceIdentifier(): null | string;
 	couldAffectReferencingModule(): boolean | typeof TRANSITIVE;
 
@@ -3140,6 +3166,11 @@ declare interface EntryDescription {
 	asyncChunks?: boolean;
 
 	/**
+	 * Base uri for this entry.
+	 */
+	baseUri?: string;
+
+	/**
 	 * The method of loading chunks (methods included by default are 'jsonp' (web), 'import' (ESM), 'importScripts' (WebWorker), 'require' (sync node.js), 'async-node' (async node.js), but others might be added by plugins).
 	 */
 	chunkLoading?: string | false;
@@ -3193,6 +3224,11 @@ declare interface EntryDescriptionNormalized {
 	 * Enable/disable creating async chunks that are loaded on demand.
 	 */
 	asyncChunks?: boolean;
+
+	/**
+	 * Base uri for this entry.
+	 */
+	baseUri?: string;
 
 	/**
 	 * The method of loading chunks (methods included by default are 'jsonp' (web), 'import' (ESM), 'importScripts' (WebWorker), 'require' (sync node.js), 'async-node' (async node.js), but others might be added by plugins).
@@ -3809,6 +3845,7 @@ declare interface ExpressionExpressionInfo {
 	rootInfo: string | VariableInfo;
 	name: string;
 	getMembers: () => string[];
+	getMembersOptionals: () => boolean[];
 }
 type ExternalItem =
 	| string
@@ -4554,6 +4591,11 @@ declare interface HttpUriOptions {
 	lockfileLocation?: string;
 
 	/**
+	 * Proxy configuration, which can be used to specify a proxy server to use for HTTP requests.
+	 */
+	proxy?: string;
+
+	/**
 	 * When set, resources of existing lockfile entries will be fetched and entries will be upgraded when resource content has changed.
 	 */
 	upgrade?: boolean;
@@ -4645,6 +4687,11 @@ declare interface ImportModuleOptions {
 	 * the target public path
 	 */
 	publicPath?: string;
+
+	/**
+	 * target base uri
+	 */
+	baseUri?: string;
 }
 type ImportSource =
 	| undefined
@@ -5077,7 +5124,7 @@ declare class JavascriptParser extends Parser {
 		topLevelAwait: SyncBailHook<[Expression], boolean | void>;
 		call: HookMap<SyncBailHook<[Expression], boolean | void>>;
 		callMemberChain: HookMap<
-			SyncBailHook<[CallExpression, string[]], boolean | void>
+			SyncBailHook<[CallExpression, string[], boolean[]], boolean | void>
 		>;
 		memberChainOfCallMemberChain: HookMap<
 			SyncBailHook<
@@ -5093,9 +5140,10 @@ declare class JavascriptParser extends Parser {
 		>;
 		optionalChaining: SyncBailHook<[ChainExpression], boolean | void>;
 		new: HookMap<SyncBailHook<[NewExpression], boolean | void>>;
+		binaryExpression: SyncBailHook<[BinaryExpression], boolean | void>;
 		expression: HookMap<SyncBailHook<[Expression], boolean | void>>;
 		expressionMemberChain: HookMap<
-			SyncBailHook<[Expression, string[]], boolean | void>
+			SyncBailHook<[Expression, string[], boolean[]], boolean | void>
 		>;
 		unhandledExpressionMemberChain: HookMap<
 			SyncBailHook<[Expression, string[]], boolean | void>
@@ -5163,7 +5211,7 @@ declare class JavascriptParser extends Parser {
 	)[];
 	prevStatement: any;
 	currentTagData: any;
-	getRenameIdentifier(expr?: any): undefined | string;
+	getRenameIdentifier(expr?: any): undefined | string | VariableInfoInterface;
 	walkClass(classy: ClassExpression | ClassDeclaration): void;
 	preWalkStatements(statements?: any): void;
 	blockPreWalkStatements(statements?: any): void;
@@ -5310,12 +5358,10 @@ declare class JavascriptParser extends Parser {
 	enterArrayPattern(pattern?: any, onIdent?: any): void;
 	enterRestElement(pattern?: any, onIdent?: any): void;
 	enterAssignmentPattern(pattern?: any, onIdent?: any): void;
-	evaluateExpression(
-		expression: Expression
-	): undefined | BasicEvaluatedExpression;
+	evaluateExpression(expression: Expression): BasicEvaluatedExpression;
 	parseString(expression?: any): any;
 	parseCalculatedString(expression?: any): any;
-	evaluate(source?: any): undefined | BasicEvaluatedExpression;
+	evaluate(source: string): BasicEvaluatedExpression;
 	isPure(
 		expr:
 			| undefined
@@ -5398,6 +5444,7 @@ declare class JavascriptParser extends Parser {
 			| ImportExpression
 			| ChainExpression
 			| Super;
+		membersOptionals: boolean[];
 	};
 	getFreeInfoFromVariable(varName: string): {
 		name: string;
@@ -5487,6 +5534,11 @@ declare interface JavascriptParserOptions {
 	 * Enable/disable evaluating import.meta.
 	 */
 	importMeta?: boolean;
+
+	/**
+	 * Enable/disable evaluating import.meta.webpackContext.
+	 */
+	importMetaContext?: boolean;
 
 	/**
 	 * Include polyfills or mocks for various node stuff.
@@ -7236,6 +7288,37 @@ declare interface ModuleReferenceOptions {
 	 */
 	asiSafe?: boolean;
 }
+declare interface ModuleSettings {
+	/**
+	 * Specifies the layer in which the module should be placed in.
+	 */
+	layer?: string;
+
+	/**
+	 * Module type to use for the module.
+	 */
+	type?: string;
+
+	/**
+	 * Options for the resolver.
+	 */
+	resolve?: ResolveOptionsWebpackOptions;
+
+	/**
+	 * Options for parsing.
+	 */
+	parser?: { [index: string]: any };
+
+	/**
+	 * The options for the module generator.
+	 */
+	generator?: { [index: string]: any };
+
+	/**
+	 * Flags a module as with or without side effects.
+	 */
+	sideEffects?: boolean;
+}
 declare abstract class ModuleTemplate {
 	type: string;
 	hooks: Readonly<{
@@ -7425,11 +7508,11 @@ type NodeEstreeIndex =
 	| PropertyDefinition
 	| VariableDeclarator
 	| Program
-	| Super
 	| SwitchCase
 	| CatchClause
 	| Property
 	| AssignmentProperty
+	| Super
 	| TemplateElement
 	| SpreadElement
 	| ObjectPattern
@@ -7487,76 +7570,15 @@ declare class NodeTemplatePlugin {
 }
 type NodeWebpackOptions = false | NodeOptions;
 declare class NormalModule extends Module {
-	constructor(__0: {
-		/**
-		 * an optional layer in which the module is
-		 */
-		layer?: string;
-		/**
-		 * module type
-		 */
-		type: string;
-		/**
-		 * request string
-		 */
-		request: string;
-		/**
-		 * request intended by user (without loaders from config)
-		 */
-		userRequest: string;
-		/**
-		 * request without resolving
-		 */
-		rawRequest: string;
-		/**
-		 * list of loaders
-		 */
-		loaders: LoaderItem[];
-		/**
-		 * path + query of the real resource
-		 */
-		resource: string;
-		/**
-		 * resource resolve data
-		 */
-		resourceResolveData?: Record<string, any>;
-		/**
-		 * context directory for resolving
-		 */
-		context: string;
-		/**
-		 * path + query of the matched resource (virtual)
-		 */
-		matchResource?: string;
-		/**
-		 * the parser used
-		 */
-		parser: Parser;
-		/**
-		 * the options of the parser used
-		 */
-		parserOptions: object;
-		/**
-		 * the generator used
-		 */
-		generator: Generator;
-		/**
-		 * the options of the generator used
-		 */
-		generatorOptions: object;
-		/**
-		 * options used for resolving requests from this module
-		 */
-		resolveOptions: Object;
-	});
+	constructor(__0: NormalModuleCreateData);
 	request: string;
 	userRequest: string;
 	rawRequest: string;
 	binary: boolean;
 	parser: Parser;
-	parserOptions: object;
+	parserOptions?: Record<string, any>;
 	generator: Generator;
-	generatorOptions: object;
+	generatorOptions?: Record<string, any>;
 	resource: string;
 	resourceResolveData?: Record<string, any>;
 	matchResource?: string;
@@ -7599,20 +7621,109 @@ declare interface NormalModuleCompilationHooks {
 	readResource: HookMap<AsyncSeriesBailHook<[object], string | Buffer>>;
 	needBuild: AsyncSeriesBailHook<[NormalModule, NeedBuildContext], boolean>;
 }
+declare interface NormalModuleCreateData {
+	/**
+	 * an optional layer in which the module is
+	 */
+	layer?: string;
+
+	/**
+	 * module type
+	 */
+	type: string;
+
+	/**
+	 * request string
+	 */
+	request: string;
+
+	/**
+	 * request intended by user (without loaders from config)
+	 */
+	userRequest: string;
+
+	/**
+	 * request without resolving
+	 */
+	rawRequest: string;
+
+	/**
+	 * list of loaders
+	 */
+	loaders: LoaderItem[];
+
+	/**
+	 * path + query of the real resource
+	 */
+	resource: string;
+
+	/**
+	 * resource resolve data
+	 */
+	resourceResolveData?: Record<string, any>;
+
+	/**
+	 * context directory for resolving
+	 */
+	context: string;
+
+	/**
+	 * path + query of the matched resource (virtual)
+	 */
+	matchResource?: string;
+
+	/**
+	 * the parser used
+	 */
+	parser: Parser;
+
+	/**
+	 * the options of the parser used
+	 */
+	parserOptions?: Record<string, any>;
+
+	/**
+	 * the generator used
+	 */
+	generator: Generator;
+
+	/**
+	 * the options of the generator used
+	 */
+	generatorOptions?: Record<string, any>;
+
+	/**
+	 * options used for resolving requests from this module
+	 */
+	resolveOptions?: ResolveOptionsWebpackOptions;
+}
 declare abstract class NormalModuleFactory extends ModuleFactory {
 	hooks: Readonly<{
-		resolve: AsyncSeriesBailHook<[ResolveData], any>;
+		resolve: AsyncSeriesBailHook<[ResolveData], false | void | Module>;
 		resolveForScheme: HookMap<
 			AsyncSeriesBailHook<[ResourceDataWithData, ResolveData], true | void>
 		>;
 		resolveInScheme: HookMap<
 			AsyncSeriesBailHook<[ResourceDataWithData, ResolveData], true | void>
 		>;
-		factorize: AsyncSeriesBailHook<[ResolveData], any>;
-		beforeResolve: AsyncSeriesBailHook<[ResolveData], any>;
-		afterResolve: AsyncSeriesBailHook<[ResolveData], any>;
-		createModule: AsyncSeriesBailHook<[Object, ResolveData], any>;
-		module: SyncWaterfallHook<[Module, Object, ResolveData], any>;
+		factorize: AsyncSeriesBailHook<[ResolveData], Module>;
+		beforeResolve: AsyncSeriesBailHook<[ResolveData], false | void>;
+		afterResolve: AsyncSeriesBailHook<[ResolveData], false | void>;
+		createModule: AsyncSeriesBailHook<
+			[
+				Partial<NormalModuleCreateData & { settings: ModuleSettings }>,
+				ResolveData
+			],
+			void | Module
+		>;
+		module: SyncWaterfallHook<
+			[
+				Module,
+				Partial<NormalModuleCreateData & { settings: ModuleSettings }>,
+				ResolveData
+			],
+			Module
+		>;
 		createParser: HookMap<SyncBailHook<any, any>>;
 		parser: HookMap<SyncHook<any>>;
 		createGenerator: HookMap<SyncBailHook<any, any>>;
@@ -9405,6 +9516,11 @@ declare interface ResolveContext {
 	 * log function
 	 */
 	log?: (arg0: string) => void;
+
+	/**
+	 * yield result, if provided plugins can return several results
+	 */
+	yield?: (arg0: ResolveRequest) => void;
 }
 declare interface ResolveData {
 	contextInfo: ModuleFactoryCreateDataContextInfo;
@@ -9414,7 +9530,7 @@ declare interface ResolveData {
 	assertions?: Record<string, any>;
 	dependencies: ModuleDependency[];
 	dependencyType: string;
-	createData: Object;
+	createData: Partial<NormalModuleCreateData & { settings: ModuleSettings }>;
 	fileDependencies: LazySet<string>;
 	missingDependencies: LazySet<string>;
 	contextDependencies: LazySet<string>;
@@ -10197,6 +10313,7 @@ declare abstract class RuntimeTemplate {
 	outputOptions: OutputNormalized;
 	requestShortener: RequestShortener;
 	globalObject: string;
+	contentHashReplacement: string;
 	isIIFE(): undefined | boolean;
 	isModule(): undefined | boolean;
 	supportsConst(): undefined | boolean;
@@ -11723,6 +11840,7 @@ declare interface UpdateHashContextGenerator {
 	module: NormalModule;
 	chunkGraph: ChunkGraph;
 	runtime: RuntimeSpec;
+	runtimeTemplate?: RuntimeTemplate;
 }
 type UsageStateType = 0 | 1 | 2 | 3 | 4;
 declare interface UserResolveOptions {
@@ -11851,7 +11969,7 @@ declare interface UserResolveOptions {
 	restrictions?: (string | RegExp)[];
 
 	/**
-	 * Use only the sync constiants of the file system calls
+	 * Use only the sync constraints of the file system calls
 	 */
 	useSyncFileSystemCalls?: boolean;
 

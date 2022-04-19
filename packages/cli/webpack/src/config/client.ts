@@ -8,9 +8,9 @@ import {
   removeTailSlash,
   findExists,
 } from '@modern-js/utils';
-import HtmlWebpackPlugin from '../../compiled/html-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
+import { WebpackManifestPlugin } from '../../compiled/webpack-manifest-plugin';
 import webpack, {
   DefinePlugin,
   HotModuleReplacementPlugin,

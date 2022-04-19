@@ -1,6 +1,9 @@
 import { createAsyncWaterfall, createAsyncWorkflow } from '@modern-js/plugin';
-
-import type { Compiler, Configuration, MultiCompiler } from '@modern-js/types';
+import type {
+  Compiler,
+  Configuration,
+  MultiCompiler,
+} from '@modern-js/webpack';
 
 export const beforeDev = createAsyncWorkflow();
 
@@ -38,3 +41,11 @@ export const hooks = {
   beforeDeploy,
   afterDeploy,
 };
+
+declare module '@modern-js/core' {
+  export interface Hooks {
+    beforeBuild: typeof beforeBuild;
+    afterCreateCompiler: typeof afterCreateCompiler;
+    beforeCreateCompiler: typeof beforeCreateCompiler;
+  }
+}

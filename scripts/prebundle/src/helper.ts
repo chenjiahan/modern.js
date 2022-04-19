@@ -1,5 +1,6 @@
+import fs from 'fs-extra';
 import { dirname, join } from 'path';
-import { TASKS, DIST_DIR, PACKAGES_DIR } from './constant';
+import { TASKS, DIST_DIR, PACKAGES_DIR, ImportMap } from './constant';
 
 export type ParsedTask = {
   minify: boolean;
@@ -8,6 +9,7 @@ export type ParsedTask = {
   distPath: string;
   externals: Record<string, string>;
   importPath: string;
+  emitFiles: ImportMap[];
   packageDir: string;
   packagePath: string;
   packageName: string;
@@ -48,6 +50,7 @@ export function parseTasks() {
         result.push({
           minify: true,
           externals: {},
+          emitFiles: [],
           packageJsonField: [],
           ...info,
         });
@@ -55,6 +58,7 @@ export function parseTasks() {
         result.push({
           minify: dep.minify ?? true,
           externals: dep.externals ?? {},
+          emitFiles: dep.emitFiles ?? [],
           packageJsonField: dep.packageJsonField ?? [],
           ...info,
         });
@@ -72,4 +76,13 @@ export function pick<T, U extends keyof T>(obj: T, keys: ReadonlyArray<U>) {
     }
     return ret;
   }, {} as Pick<T, U>);
+}
+
+export function replaceFileContent(
+  filePath: string,
+  replaceFn: (content: string) => string,
+) {
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const newContent = replaceFn(content);
+  fs.writeFileSync(filePath, newContent);
 }
