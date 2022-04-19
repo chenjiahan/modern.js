@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs, glob, Import, logger } from '@modern-js/utils';
-import type { Configuration } from 'webpack';
+import type { Configuration } from '@modern-js/webpack';
 import { valid } from './utils/valid';
 
 const buildFeat: typeof import('./build') = Import.lazy('./build', require);

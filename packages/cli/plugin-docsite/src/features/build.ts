@@ -1,5 +1,5 @@
 import { logger, Import, chalk } from '@modern-js/utils';
-import type { Configuration } from 'webpack';
+import type { Configuration } from '@modern-js/webpack';
 
 const wp: typeof import('./utils/webpack') = Import.lazy(
   './utils/webpack',
