@@ -5,8 +5,8 @@
  * Tips: this package will be bundled and running in the browser, do not import from the entry of @modern-js/utils.
  */
 import stripAnsi from '@modern-js/utils/strip-ansi';
-import { formatWebpackMessages } from '@modern-js/utils/format';
-import type webpack from 'webpack';
+import { formatWebpackMessages } from '@modern-js/webpack/format';
+import type { webpack } from '@modern-js/webpack';
 import { createSocketUrl } from './createSocketUrl';
 
 // declare any to fix the type of `module.hot`

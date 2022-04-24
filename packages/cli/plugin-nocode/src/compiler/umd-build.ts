@@ -1,14 +1,16 @@
 import * as path from 'path';
 import {
   fs,
-  Import,
-  formatWebpackMessages,
   printFileSizesAfterBuild,
   measureFileSizesBeforeBuild,
   printBuildError,
   chalk,
 } from '@modern-js/utils';
-import type { Configuration } from 'webpack';
+import {
+  webpack,
+  Configuration,
+  formatWebpackMessages,
+} from '@modern-js/webpack';
 
 type Argu<F extends (inputA: any, inputB: any) => any> = F extends (
   inputA: infer A,
@@ -16,8 +18,6 @@ type Argu<F extends (inputA: any, inputB: any) => any> = F extends (
 ) => any
   ? B
   : never;
-
-const webpack: typeof import('webpack') = Import.lazy('webpack', require);
 
 // These sizes are pretty large. We'll warn for bundles exceeding them.
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;

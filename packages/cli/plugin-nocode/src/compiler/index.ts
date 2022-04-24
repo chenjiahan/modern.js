@@ -1,11 +1,11 @@
 import * as path from 'path';
+import { webpack } from '@modern-js/webpack';
 import type {
   Configuration,
   RuleSetRule,
   WebpackPluginInstance,
-} from 'webpack';
+} from '@modern-js/webpack';
 import { fs, logger } from '@modern-js/utils';
-import webpack from 'webpack';
 import { EDITOR_ENTRY, DEFAULT_ENTRY, MODE } from '../contants';
 import createSyntheticEntry from './createSyntheticEntry';
 import { buildUmd as build } from './umd-build';

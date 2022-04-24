@@ -1,5 +1,5 @@
 import path from 'path';
-import webpack from 'webpack';
+import { webpack } from '@modern-js/webpack';
 import { createFsFromVolume, Volume } from 'memfs';
 import { APILoaderOptions } from '../src/loader';
 

@@ -22,10 +22,6 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
     },
-    "./format": {
-      "jsnext:source": "./src/format.ts",
-      "default": "./dist/format.js"
-    },
     "./constants": {
       "jsnext:source": "./src/constants.ts",
       "default": "./dist/constants.js"
@@ -41,9 +37,6 @@
   },
   "typesVersions": {
     "*": {
-      "format": [
-        "./dist/format.d.ts"
-      ],
       "constants": [
         "./dist/constants.d.ts"
       ],
@@ -73,9 +66,9 @@
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^26",
+    "@types/minimist": "^1.2.2",
     "@types/node": "^14",
-    "jest": "^27",
-    "webpack": "^5.71.0"
+    "jest": "^27"
   },
   "sideEffects": false,
   "publishConfig": {

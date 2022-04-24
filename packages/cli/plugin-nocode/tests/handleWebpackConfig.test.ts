@@ -1,7 +1,7 @@
 import path from 'path';
 import { BaseWebpackConfig } from '@modern-js/webpack';
 import { defaultsConfig, IAppContext } from '@modern-js/core';
-import { RuleSetRule } from 'webpack';
+import type { RuleSetRule } from '@modern-js/webpack';
 import { handleWebpackConfig } from '../src/compiler';
 
 export const userConfig: any = {

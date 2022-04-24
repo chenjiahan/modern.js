@@ -9,6 +9,7 @@ import {
 export * from './compiled';
 
 export { BaseWebpackConfig } from './config/base';
+export { formatWebpackMessages } from './utils/format';
 
 export enum WebpackConfigTarget {
   CLIENT,

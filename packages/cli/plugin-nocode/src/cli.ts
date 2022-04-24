@@ -2,7 +2,7 @@ import { join } from 'path';
 import { PLUGIN_SCHEMAS } from '@modern-js/utils';
 import { WebpackConfigTarget, getWebpackConfig } from '@modern-js/webpack';
 import type { CliPlugin } from '@modern-js/core';
-import type { Configuration } from 'webpack';
+import type { Configuration } from '@modern-js/webpack';
 import { MODE, STARRY_MODEL_RUNTIME } from './contants';
 import dev from './dev';
 import { register } from './register';

@@ -3,11 +3,11 @@ import path from 'path';
 import { fs, Import } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type {
-  Configuration,
   RuleSetRule,
+  Configuration,
   RuleSetUseItem,
   RuleSetConditionAbsolute,
-} from 'webpack';
+} from '@modern-js/webpack';
 import type Chain from 'webpack-chain';
 import { CURRENT_PKG_PATH } from '../constants';
 

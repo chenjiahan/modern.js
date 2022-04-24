@@ -1,12 +1,12 @@
 import {
   webpack,
   Configuration,
-  WebpackConfigTarget,
   getWebpackConfig,
+  WebpackConfigTarget,
+  formatWebpackMessages,
 } from '@modern-js/webpack';
 import { manager, PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import {
-  formatWebpackMessages,
   measureFileSizesBeforeBuild,
   printFileSizesAfterBuild,
   printBuildError,

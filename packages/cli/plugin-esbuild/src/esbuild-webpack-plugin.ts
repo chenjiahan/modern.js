@@ -3,7 +3,7 @@
  * support webpack 5 and esbuild ^0.12.22
  */
 import { transform, TransformOptions, TransformResult } from 'esbuild';
-import type { Compiler, Compilation } from 'webpack';
+import type { Compiler, Compilation } from '@modern-js/webpack';
 
 export type ESBuildPluginOptions = Omit<
   TransformOptions,

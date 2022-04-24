@@ -11,7 +11,7 @@ import {
   applyOptionsChain,
   removeLeadingSlash,
 } from '@modern-js/utils';
-import TerserPlugin from 'terser-webpack-plugin';
+import { TerserWebpackPlugin } from '../compiled';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -612,7 +612,7 @@ class BaseWebpackConfig {
       .splitChunks({ chunks: 'all' })
       .runtimeChunk({ name: (entrypoint: any) => `runtime-${entrypoint.name}` })
       .minimizer('js')
-      .use(TerserPlugin, [
+      .use(TerserWebpackPlugin, [
         // FIXME: any type
         applyOptionsChain<any, any>(
           {
@@ -687,7 +687,7 @@ class BaseWebpackConfig {
     const config = this.chain.toConfig();
 
     applyOptionsChain(
-      config,
+      config as any,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error utils type incompatible
       this.options.tools?.webpack,

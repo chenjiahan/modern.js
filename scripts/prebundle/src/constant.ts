@@ -74,8 +74,17 @@ export const TASKS: Task[] = [
     packageName: '@modern-js/webpack',
     dependencies: [
       {
+        name: 'terser-webpack-plugin',
+        externals: {
+          'jest-worker': 'jest-worker',
+        },
+      },
+      {
         name: 'webpack',
         minify: false,
+        externals: {
+          'terser-webpack-plugin': '../terser-webpack-plugin',
+        },
         emitFiles: [
           {
             path: '/lib/NormalModule.js',

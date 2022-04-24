@@ -26,6 +26,10 @@
       },
       "default": "./dist/index.js"
     },
+    "./format": {
+      "jsnext:source": "./src/utils/format.ts",
+      "default": "./dist/utils/format.js"
+    },
     "./webpack": {
       "jsnext:source": "./compiled/webpack/index.js",
       "default": "./compiled/webpack/index.js"
@@ -35,6 +39,9 @@
     "*": {
       "webpack": [
         "./compiled/webpack/types.d.ts"
+      ],
+      "format": [
+        "./dist/utils/format.d.ts"
       ]
     }
   },
@@ -63,6 +70,8 @@
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^7.2.1",
     "html-loader": "^2.1.2",
+    "html-webpack-plugin": "^5.5.0",
+    "jest-worker": "^27.5.1",
     "json-loader": "^0.5.7",
     "markdown-loader": "^6.0.0",
     "mini-css-extract-plugin": "~2.4.5",
@@ -71,13 +80,11 @@
     "postcss-loader": "^6.1.1",
     "regenerator-runtime": "^0.13.9",
     "style-loader": "^3.3.1",
-    "terser-webpack-plugin": "^5.1.4",
     "toml-loader": "^1.0.0",
     "ts-loader": "^9.2.5",
     "tsconfig-paths": "^3.11.0",
     "url-loader": "^4.1.1",
     "webpack-bundle-analyzer": "^4.5.0",
-    "html-webpack-plugin": "^5.5.0",
     "webpack-chain": "^6.5.1",
     "webpack-merge": "^5.8.0",
     "webpack-node-externals": "^3.0.0",

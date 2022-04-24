@@ -1,11 +1,11 @@
-import { webpack, Configuration, StatsCompilation } from '@modern-js/webpack';
-import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
 import {
-  chalk,
-  logger,
+  webpack,
+  Configuration,
+  StatsCompilation,
   formatWebpackMessages,
-  clearConsole,
-} from '@modern-js/utils';
+} from '@modern-js/webpack';
+import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
+import { chalk, logger, clearConsole } from '@modern-js/utils';
 import { printInstructions } from './printInstructions';
 
 const prettyTime = (stats: StatsCompilation) =>

@@ -1,5 +1,5 @@
 import http from 'http';
-import { webpack, HotModuleReplacementPlugin } from 'webpack';
+import { webpack, HotModuleReplacementPlugin } from '@modern-js/webpack';
 import SocketServer from '../src/dev-tools/socket-server';
 import DevServerPlugin from '../src/dev-tools/dev-server-plugin';
 

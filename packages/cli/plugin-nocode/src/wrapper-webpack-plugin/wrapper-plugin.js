@@ -1,6 +1,5 @@
-const { Compilation } = require('webpack');
+const { webpack, Compilation } = require('@modern-js/webpack');
 const { ConcatSource } = require('webpack-sources');
-const ModuleFilenameHelpers = require('webpack/lib/ModuleFilenameHelpers');
 
 class WrapperPlugin {
   /**
@@ -73,7 +72,7 @@ class WrapperPlugin {
 
     function wrapChunks(compilation, assets) {
       for (const fileName of Object.keys(assets)) {
-        if (ModuleFilenameHelpers.matchObject(tester, fileName)) {
+        if (webpack.ModuleFilenameHelpers.matchObject(tester, fileName)) {
           wrapFile(compilation, fileName);
         }
       }

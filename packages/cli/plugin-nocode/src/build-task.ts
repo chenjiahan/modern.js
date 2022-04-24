@@ -1,6 +1,6 @@
 import { Import } from '@modern-js/utils';
 import { WebpackConfigTarget, getWebpackConfig } from '@modern-js/webpack';
-import type { Configuration } from 'webpack';
+import type { Configuration } from '@modern-js/webpack';
 import { MODE } from './contants';
 
 const core: typeof import('@modern-js/core') = Import.lazy(
