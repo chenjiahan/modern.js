@@ -62,7 +62,7 @@ export interface IAppContext {
   checkedEntries: string[];
   serverRoutes: ServerRoute[];
   htmlTemplates: HtmlTemplates;
-  existSrc: boolean;
+  apiOnly: boolean;
   internalDirAlias: string;
   internalSrcAlias: string;
 }

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/eslint-config",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -24,7 +24,7 @@
     "@typescript-eslint/parser": "^5.17.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-import-resolver-webpack": "^0.11.1",
+    "eslint-import-resolver-webpack": "^0.13.1",
     "eslint-plugin-eslint-comments": "^3.1.1",
     "eslint-plugin-filenames": "^1.3.2",
     "eslint-plugin-import": "^2.24.1",
@@ -37,7 +37,7 @@
     "prettier": "^2.0.1"
   },
   "dependencies": {
-    "@modern-js-app/eslint-config": "workspace:^1.2.5"
+    "@modern-js-app/eslint-config": "workspace:^1.2.8"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

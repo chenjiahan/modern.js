@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.4.1",
+  "version": "1.5.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -65,10 +65,11 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
+    "minimist": "^1.2.0",
     "typescript": "^4"
   },
   "devDependencies": {
-    "@modern-js/types": "workspace:^1.4.0",
+    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^26",

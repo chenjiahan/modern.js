@@ -41,6 +41,7 @@ export default (): CliPlugin => ({
           .description(i18n.t(localeKeys.command.dev.describe))
           .option('-c --config <config>', i18n.t(localeKeys.command.dev.config))
           .option('-e --entry [entry...]', i18n.t(localeKeys.command.dev.entry))
+          .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
           .action(async (options: DevOptions) => {
             await dev(api, options);
           });
@@ -62,6 +63,7 @@ export default (): CliPlugin => ({
           .command('start')
           .usage('[options]')
           .description(i18n.t(localeKeys.command.start.describe))
+          .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
           .action(async () => {
             await start(api);
           });
