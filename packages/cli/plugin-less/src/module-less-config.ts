@@ -1,6 +1,5 @@
 import type { NormalizedConfig } from '@modern-js/core';
 import { getLessLoaderOptions } from '@modern-js/css-config';
-import NpmImportPlugin from 'less-plugin-npm-import';
 import { LessOption as ResolvedLessOption } from '@modern-js/style-compiler';
 
 export const moduleLessConfig = ({
@@ -11,6 +10,7 @@ export const moduleLessConfig = ({
   npmImportPrefix?: string;
 }): ResolvedLessOption => {
   const { options } = getLessLoaderOptions(modernConfig);
+  const NpmImportPlugin = require('@modern-js/webpack/less-plugin-npm-import');
 
   return {
     enableSourceMap: options.sourceMap || false,

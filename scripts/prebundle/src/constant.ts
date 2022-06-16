@@ -22,6 +22,7 @@ export const DEFAULT_EXTERNALS = {
   // ncc bundled wrong package.json, using external to avoid this problem
   './package.json': './package.json',
   '../package.json': './package.json',
+  '../../package.json': './package.json',
   postcss: 'postcss',
   '@babel/core': '@babel/core',
   '@babel/runtime': '@babel/runtime',
@@ -309,6 +310,42 @@ export const TASKS: TaskConfig[] = [
           'schema-utils/declarations/validate':
             'schema-utils/declarations/validate',
           'mime-types': '@modern-js/utils/mime-types',
+        },
+      },
+      {
+        name: 'less',
+        ignoreDts: true,
+        externals: {
+          // needle is an optional dependency and no need to bundle it.
+          needle: 'needle',
+        },
+      },
+      {
+        name: 'less-loader',
+        ignoreDts: true,
+        externals: {
+          less: '../less',
+        },
+      },
+      {
+        name: 'sass',
+        externals: {
+          chokidar: '@modern-js/utils/chokidar',
+        },
+      },
+      {
+        name: 'sass-loader',
+        ignoreDts: true,
+        externals: {
+          sass: '../sass',
+        },
+      },
+      {
+        name: 'less-plugin-npm-import',
+        ignoreDts: true,
+        externals: {
+          // external promise polyfill
+          promise: 'promise',
         },
       },
     ],
