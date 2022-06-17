@@ -1,4 +1,4 @@
-import type { LegacyFileOptions } from 'sass';
+import type { LegacyFileOptions } from '../../../compiled/sass';
 
 export interface SassLoaderOptions {
   sassOptions?: LegacyFileOptions<'sync'>;

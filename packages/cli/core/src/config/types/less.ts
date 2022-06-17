@@ -1,8 +1,8 @@
 import type { LoaderContext } from 'webpack';
-import type Less from 'less';
+import type { Options } from '../../../compiled/less';
 
 export type LessLoaderOptions = {
-  lessOptions?: Less.Options;
+  lessOptions?: Options;
   additionalData?:
     | string
     | ((

@@ -1,6 +1,6 @@
 import { join } from 'path';
 import glob from 'fast-glob';
-import { copyFileSync } from 'fs-extra';
+import { copyFileSync, copySync } from 'fs-extra';
 import { replaceFileContent } from './helper';
 import type { TaskConfig } from './types';
 
@@ -140,6 +140,25 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'v8-compile-cache',
         ignoreDts: true,
+      },
+      {
+        name: 'sass',
+        dtsOnly: true,
+        afterBundle(task) {
+          copySync(join(task.depPath, 'types'), join(task.distPath, 'types'));
+        },
+      },
+      {
+        name: 'less',
+        dtsOnly: true,
+        afterBundle(task) {
+          replaceFileContent(join(task.distPath, 'index.d.ts'), content =>
+            content.replace(
+              `declare module "less" {\n    export = less;\n}`,
+              `export = Less;`,
+            ),
+          );
+        },
       },
       // some dependencies
       {
@@ -329,6 +348,7 @@ export const TASKS: TaskConfig[] = [
       },
       {
         name: 'sass',
+        ignoreDts: true,
         externals: {
           chokidar: '@modern-js/utils/chokidar',
         },

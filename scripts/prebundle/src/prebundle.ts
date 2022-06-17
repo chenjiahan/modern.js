@@ -148,17 +148,19 @@ export async function prebundle(task: ParsedTask) {
     await task.beforeBundle(task);
   }
 
-  const { code, assets } = await ncc(task.depEntry, {
-    minify: task.minify,
-    externals: {
-      ...DEFAULT_EXTERNALS,
-      ...task.externals,
-    },
-    assetBuilds: false,
-  });
+  if (!task.dtsOnly) {
+    const { code, assets } = await ncc(task.depEntry, {
+      minify: task.minify,
+      externals: {
+        ...DEFAULT_EXTERNALS,
+        ...task.externals,
+      },
+      assetBuilds: false,
+    });
+    emitIndex(code, task.distPath);
+    emitAssets(assets, task.distPath);
+  }
 
-  emitIndex(code, task.distPath);
-  emitAssets(assets, task.distPath);
   emitDts(task);
   emitLicense(task);
   emitPackageJson(task);

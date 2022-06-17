@@ -42,6 +42,7 @@
     "@types/glob": "7.2.0",
     "@types/inquirer": "8.2.1",
     "@types/js-yaml": "4.0.5",
+    "@types/less": "3.0.3",
     "@types/lodash": "4.14.181",
     "@types/minimist": "1.2.2",
     "@types/mime-types": "2.1.1",

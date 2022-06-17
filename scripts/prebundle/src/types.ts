@@ -16,6 +16,8 @@ export type DependencyConfig = {
   packageJsonField?: string[];
   /** Whether to ignore type definitions */
   ignoreDts?: boolean;
+  /** Only bundle type definitions */
+  dtsOnly?: boolean;
   /* Callback before bundle. */
   beforeBundle?: (task: ParsedTask) => void | Promise<void>;
   /* Callback after bundle. */
@@ -32,6 +34,7 @@ export type ParsedTask = {
   depPath: string;
   depEntry: string;
   distPath: string;
+  dtsOnly?: DependencyConfig['dtsOnly'];
   importPath: string;
   packageDir: string;
   ignoreDts?: boolean;

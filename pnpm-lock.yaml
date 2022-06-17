@@ -218,7 +218,6 @@ importers:
       '@types/babel__code-frame': ^7.0.3
       '@types/babel__core': ^7.1.16
       '@types/jest': ^27
-      '@types/less': ^3.0.3
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -227,7 +226,6 @@ importers:
       electron-builder: 22.7.0
       jest: ^27
       postcss: ^8.4.14
-      sass: ^1.45.0
       terser-webpack-plugin: ^5.1.4
       typescript: ^4
       webpack: ^5.71.0
@@ -243,7 +241,6 @@ importers:
       '@types/babel__code-frame': 7.0.3
       '@types/babel__core': 7.1.18
       '@types/jest': 27.4.1
-      '@types/less': 3.0.3
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -252,7 +249,6 @@ importers:
       electron-builder: 22.7.0
       jest: 27.4.5
       postcss: 8.4.14
-      sass: 1.45.2
       terser-webpack-plugin: 5.3.1_esbuild@0.14.38+webpack@5.71.0
       typescript: 4.5.4
       webpack: 5.71.0_esbuild@0.14.38
@@ -269,7 +265,6 @@ importers:
       caniuse-lite: ^1.0.30001332
       jest: ^27
       postcss: ^8.4.14
-      sass: ^1.45.0
       typescript: ^4
     dependencies:
       '@modern-js/utils': link:../../toolkit/utils
@@ -283,7 +278,6 @@ importers:
       '@types/node': 14.18.4
       '@types/react-dom': 17.0.11
       jest: 27.4.5
-      sass: 1.45.2
       typescript: 4.5.4
 
   packages/cli/i18n-cli-language-detector:
@@ -859,22 +853,14 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
-      '@types/less': ^3.0.3
       '@types/node': ^14
       jest: ^27
-      less: ^4.1.1
-      less-loader: ^10.0.1
-      less-plugin-npm-import: ^2.1.0
       typescript: ^4
       webpack: ^5.71.0
     dependencies:
       '@babel/runtime': 7.18.3
       '@modern-js/css-config': link:../css-config
       '@modern-js/utils': link:../../toolkit/utils
-      '@types/less': 3.0.3
-      less: 4.1.2
-      less-loader: 10.2.0_less@4.1.2+webpack@5.71.0
-      less-plugin-npm-import: 2.1.0
     devDependencies:
       '@modern-js/core': link:../core
       '@modern-js/style-compiler': link:../../toolkit/compiler/style
@@ -4178,6 +4164,7 @@ importers:
       '@types/glob': 7.2.0
       '@types/inquirer': 8.2.1
       '@types/js-yaml': 4.0.5
+      '@types/less': 3.0.3
       '@types/lodash': 4.14.181
       '@types/mime-types': 2.1.1
       '@types/minimist': 1.2.2
@@ -4299,6 +4286,7 @@ importers:
       '@types/glob': 7.2.0
       '@types/inquirer': 8.2.1
       '@types/js-yaml': 4.0.5
+      '@types/less': 3.0.3
       '@types/lodash': 4.14.181
       '@types/mime-types': 2.1.1
       '@types/minimist': 1.2.2
@@ -15252,6 +15240,7 @@ packages:
 
   /@types/less/3.0.3:
     resolution: {integrity: sha512-1YXyYH83h6We1djyoUEqTlVyQtCfJAFXELSKW2ZRtjHD4hQ82CC4lvrv5D0l0FLcKBaiPbXyi3MpMsI9ZRgKsw==}
+    dev: true
 
   /@types/loadable__component/5.13.4:
     resolution: {integrity: sha512-YhoCCxyuvP2XeZNbHbi8Wb9EMaUJuA2VGHxJffcQYrJKIKSkymJrhbzsf9y4zpTmr5pExAAEh5hbF628PAZ8Dg==}
@@ -28044,18 +28033,6 @@ packages:
     dependencies:
       invert-kv: 1.0.0
 
-  /less-loader/10.2.0_less@4.1.2+webpack@5.71.0:
-    resolution: {integrity: sha512-AV5KHWvCezW27GT90WATaDnfXBv99llDbtaj4bshq6DvAihMdNjaPDcUMa6EXKLRF+P2opFenJp89BXg91XLYg==}
-    engines: {node: '>= 12.13.0'}
-    peerDependencies:
-      less: ^3.5.0 || ^4.0.0
-      webpack: ^5.0.0
-    dependencies:
-      klona: 2.0.5
-      less: 4.1.2
-      webpack: 5.71.0_esbuild@0.14.38
-    dev: false
-
   /less-loader/10.2.0_less@4.1.3+webpack@5.71.0:
     resolution: {integrity: sha512-AV5KHWvCezW27GT90WATaDnfXBv99llDbtaj4bshq6DvAihMdNjaPDcUMa6EXKLRF+P2opFenJp89BXg91XLYg==}
     engines: {node: '>= 12.13.0'}
@@ -28074,6 +28051,7 @@ packages:
     dependencies:
       promise: 7.0.4
       resolve: 1.1.7
+    dev: true
 
   /less/4.1.2:
     resolution: {integrity: sha512-EoQp/Et7OSOVu0aJknJOtlXZsnr8XE8KwuzTHOLeVSEx8pVWUICc8Q0VYRHgzyjX78nMEyC/oztWFbgyhtNfDA==}
@@ -31477,6 +31455,7 @@ packages:
     resolution: {integrity: sha512-8z1gTSL9cMgqCx8zvMYhzT0eQURAQNSQqR8B2hGfCYkAzt1vjReVdKBv4YwGw3OXAPaxfm4aR0gLoBUon4VmmA==}
     dependencies:
       asap: 2.0.6
+    dev: true
 
   /promise/7.3.1:
     resolution: {integrity: sha512-nolQXZ/4L+bP/UGlkfaIujX9BKxGwmQ9OT4mOt5yvy8iK1h3wqTEJCijzGANTCCl9nWjY41juyAn2K3Q1hLLTg==}
@@ -33525,6 +33504,7 @@ packages:
 
   /resolve/1.1.7:
     resolution: {integrity: sha512-9znBF0vBcaSN3W2j7wKvdERPwqTxSpCq+if5C0WoTCyV9n24rua28jeuQ2pL/HOf+yUe/Mef+H/5p60K0Id3bg==}
+    dev: true
 
   /resolve/1.17.0:
     resolution: {integrity: sha512-ic+7JYiV8Vi2yzQGFWOkiZD5Z9z7O2Zhm9XMaTxdJExKasieFCr+yXZ/WmXsckHiKl12ar0y6XiXDx3m4RHn1w==}
@@ -33852,6 +33832,7 @@ packages:
       chokidar: 3.5.3
       immutable: 4.0.0
       source-map-js: 1.0.2
+    dev: false
 
   /sass/1.52.3:
     resolution: {integrity: sha512-LNNPJ9lafx+j1ArtA7GyEJm9eawXN8KlA1+5dF6IZyoONg1Tyo/g+muOsENWJH/2Q1FHbbV4UwliU0cXMa/VIA==}

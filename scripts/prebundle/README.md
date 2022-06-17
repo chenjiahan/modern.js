@@ -143,3 +143,16 @@ dependencies: [
   },
 ];
 ```
+
+### dtsOnly
+
+Only bundle type definitions.
+
+```ts
+dependencies: [
+  {
+    name: 'foo',
+    dtsOnly: true,
+  },
+];
+```

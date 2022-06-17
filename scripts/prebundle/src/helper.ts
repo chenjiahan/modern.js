@@ -50,6 +50,7 @@ export function parseTasks() {
       } else {
         result.push({
           minify: dep.minify ?? true,
+          dtsOnly: dep.dtsOnly,
           ignoreDts: dep.ignoreDts,
           externals: dep.externals ?? {},
           emitFiles: dep.emitFiles ?? [],
