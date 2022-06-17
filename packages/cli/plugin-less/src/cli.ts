@@ -41,6 +41,8 @@ export default (): CliPlugin => ({
             const { options, excludes } =
               cssConfig.getLessLoaderOptions(resolvedConfig);
 
+            options.implementation = require('@modern-js/css-config/less');
+
             const loaders = chain.module.rule(RULE.LOADERS);
 
             // Rule test order:
@@ -59,7 +61,9 @@ export default (): CliPlugin => ({
                   // @ts-expect-error webpack-chain missing type
                   ...loaders.oneOf(ONE_OF.CSS_MODULES).toConfig().use,
                   {
-                    loader: require.resolve('less-loader'),
+                    loader: require.resolve(
+                      '@modern-js/css-config/less-loader',
+                    ),
                     options,
                   },
                 ],
@@ -76,7 +80,9 @@ export default (): CliPlugin => ({
                   // @ts-expect-error webpack-chain missing type
                   ...loaders.oneOf(ONE_OF.CSS).toConfig().use,
                   {
-                    loader: require.resolve('less-loader'),
+                    loader: require.resolve(
+                      '@modern-js/css-config/less-loader',
+                    ),
                     options,
                   },
                 ],

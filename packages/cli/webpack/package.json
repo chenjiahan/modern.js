@@ -26,31 +26,11 @@
       },
       "default": "./dist/index.js"
     },
-    "./sass": "./compiled/sass/index.js",
-    "./sass-loader": "./compiled/sass-loader/index.js",
-    "./less": "./compiled/less/index.js",
-    "./less-loader": "./compiled/less-loader/index.js",
-    "./less-plugin-npm-import": "./compiled/less-plugin-npm-import/index.js",
     "./webpack-dev-middleware": "./compiled/webpack-dev-middleware/index.js",
     "./@loadable/webpack-plugin": "./compiled/@loadable/webpack-plugin/index.js"
   },
   "typesVersions": {
     "*": {
-      "sass": [
-        "./compiled/sass/types/index.d.ts"
-      ],
-      "sass-loader": [
-        "./compiled/sass-loader/types/index.d.ts"
-      ],
-      "less": [
-        "./compiled/less/types/index.d.ts"
-      ],
-      "less-loader": [
-        "./compiled/less-loader/types/index.d.ts"
-      ],
-      "less-plugin-npm-import": [
-        "./compiled/less-plugin-npm-import/types/index.d.ts"
-      ],
       "webpack-dev-middleware": [
         "./compiled/webpack-dev-middleware/types/index.d.ts"
       ],

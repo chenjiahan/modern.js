@@ -42,7 +42,7 @@ export default (): CliPlugin => ({
               const { options, excludes } =
                 cssConfig.getSassLoaderOptions(resolvedConfig);
 
-              options.implementation = require('@modern-js/webpack/sass');
+              options.implementation = require('@modern-js/css-config/sass');
 
               const loaders = chain.module.rule(RULE.LOADERS);
 
@@ -64,7 +64,9 @@ export default (): CliPlugin => ({
                     // @ts-expect-error webpack-chain missing minimizers type
                     ...loaders.oneOf(ONE_OF.CSS_MODULES).toConfig().use,
                     {
-                      loader: require.resolve('@modern-js/webpack/sass-loader'),
+                      loader: require.resolve(
+                        '@modern-js/css-config/sass-loader',
+                      ),
                       options,
                     },
                   ],
@@ -81,7 +83,9 @@ export default (): CliPlugin => ({
                     // @ts-expect-error webpack-chain missing minimizers type
                     ...loaders.oneOf(ONE_OF.CSS).toConfig().use,
                     {
-                      loader: require.resolve('@modern-js/webpack/sass-loader'),
+                      loader: require.resolve(
+                        '@modern-js/css-config/sass-loader',
+                      ),
                       options,
                     },
                   ],

@@ -10,7 +10,7 @@ export const moduleLessConfig = ({
   npmImportPrefix?: string;
 }): ResolvedLessOption => {
   const { options } = getLessLoaderOptions(modernConfig);
-  const NpmImportPlugin = require('@modern-js/webpack/less-plugin-npm-import');
+  const NpmImportPlugin = require('@modern-js/css-config/less-plugin-npm-import');
 
   return {
     enableSourceMap: options.sourceMap || false,

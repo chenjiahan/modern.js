@@ -25,6 +25,26 @@
         "require": "./dist/index.js"
       },
       "default": "./dist/index.js"
+    },
+    "./sass": {
+      "default": "./compiled/sass/index.js",
+      "types": "./compiled/sass/types/index.d.ts"
+    },
+    "./sass-loader": {
+      "default": "./compiled/sass-loader/index.js",
+      "types": "./compiled/sass-loader/types/index.d.ts"
+    },
+    "./less": {
+      "default": "./compiled/less/index.js",
+      "types": "./compiled/less/types/index.d.ts"
+    },
+    "./less-loader": {
+      "default": "./compiled/less-loader/index.js",
+      "types": "./compiled/less-loader/types/index.d.ts"
+    },
+    "./less-plugin-npm-import": {
+      "default": "./compiled/less-plugin-npm-import/index.js",
+      "types": "./compiled/less-plugin-npm-import/types/index.d.ts"
     }
   },
   "scripts": {
