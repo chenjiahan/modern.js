@@ -36,7 +36,7 @@ rm -rf ./node_modules pnpm-lock.yaml && pnpm install
 
 建议将项目中体积较大的第三方依赖替换为更轻量的库，比如将 [moment](https://momentjs.com/) 替换为 [day.js](https://day.js.org/)。
 
-如果不清楚项目中哪些三方依赖的体积较大，可以执行在构建时添加 `--analyze` 参数：
+如果不清楚项目中哪些三方依赖的体积较大，可以在执行构建时添加 `--analyze` 参数：
 
 ```bash
 npx modern build --analyze
@@ -45,7 +45,6 @@ npx modern build --analyze
 该参数会生成一个分析构建产物体积的 HTML 文件，手动在浏览器中打开该文件，可以看到打包产物的瓦片图。区块的面积越大，说明该模块的体积越大。
 
 <img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png" />
-
 
 ### 避免使用 ts-loader
 
@@ -102,9 +101,9 @@ export default defineConfig({
 
 ### 调整开发环境 SourceMap 格式
 
-为了提供良好的调试体验，Modern.js 在开发环境下默认使用 webpack 提供的 `cheap-module-source-map` SourceMap。
+为了提供良好的调试体验，Modern.js 在开发环境下默认使用 webpack 提供的 `cheap-module-source-map` 格式 SourceMap。
 
-通过调整开发环境 SourceMap 格式，可以提升编译速度。
+由于生成高质量的 SourceMap 需要额外的性能开销，通过调整开发环境的 SourceMap 格式，可以提升 dev 编译速度。
 
 比如禁用 SourceMap：
 
@@ -129,6 +128,29 @@ export default defineConfig({
   },
 });
 ```
+
+> 关于不同 SourceMap 格式之间的详细差异，请查看 [webpack - devtool](https://webpack.js.org/configuration/devtool/)。
+
+### 调整开发环境的 Browserslist 范围
+
+这项优化的原理与「提升 Browserslist 范围」类似，区别在于，我们可以为开发环境和生产环境设置不同的 browserslist，使开发环境下不需要引入额外的 Polyfill 编译逻辑。
+
+比如在 `package.json` 中添加以下配置，在开发环境下只兼容最新的浏览器，在生产环境下兼容实际需要的浏览器：
+
+```json
+{
+  "browserslist": {
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
+```
+
+注意，这项优化策略会导致 `dev` 构建的产物与 `build` 构建的产物存在一定差异。
 
 ## build 优化策略
 

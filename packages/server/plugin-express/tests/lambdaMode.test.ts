@@ -2,7 +2,6 @@ import path from 'path';
 import express from 'express';
 import request from 'supertest';
 import { serverManager } from '@modern-js/server-core';
-import { INTROSPECTION_ROUTE_PATH } from '@modern-js/bff-utils';
 import plugin from '../src/plugin';
 import { APIPlugin } from './helpers';
 import './common';
@@ -92,14 +91,6 @@ describe('lambda-mode', () => {
     expect(res3.status).toBe(500);
   });
 
-  test('introspection', async () => {
-    const res = await request(apiHandler).get(
-      `/api${INTROSPECTION_ROUTE_PATH}`,
-    );
-    expect(res.status).toBe(200);
-    expect(res.body.protocol).toBe('Farrow-API');
-  });
-
   test('should support upload file', done => {
     request(apiHandler)
       .post(`${prefix}/upload`)
@@ -121,7 +112,7 @@ describe('add middlewares', () => {
 
   beforeAll(async () => {
     serverManager.usePlugin(plugin);
-    runner = await serverManager.init({});
+    runner = await serverManager.init();
   });
 
   test('should support add by function', async () => {
@@ -209,7 +200,7 @@ describe('support app.ts in lambda mode', () => {
   let runner: any;
 
   beforeAll(async () => {
-    runner = await serverManager.init({});
+    runner = await serverManager.init();
   });
 
   beforeEach(() => {
@@ -234,6 +225,7 @@ describe('support app.ts in lambda mode', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
 
     const res = await request(apiHandler).get(`/nest/user?name=${name}`);
@@ -256,6 +248,7 @@ describe('support app.ts in lambda mode', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
 
     const res = await request(apiHandler).get(`/nest/user?name=${name}`);
@@ -282,6 +275,7 @@ describe('support app.ts in lambda mode', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
 
     const res = await request(apiHandler).get(`/nest/user`);
@@ -309,6 +303,7 @@ describe('support app.ts in lambda mode', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
 
     const res1 = await request(apiHandler).get(`/hello`);
@@ -326,7 +321,7 @@ describe('support as async handler', () => {
 
   beforeAll(async () => {
     serverManager.usePlugin(plugin);
-    runner = await serverManager.init({});
+    runner = await serverManager.init();
   });
 
   test('API handler should works', async () => {

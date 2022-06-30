@@ -1,11 +1,16 @@
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { NextFunction, BffProxyOptions } from '@modern-js/types';
-import type { MetaOptions, ChainIdentifier } from '@modern-js/utils';
+import type {
+  MetaOptions,
+  ChainIdentifier,
+  WatchOptions,
+} from '@modern-js/utils';
 import type { TransformOptions, PluginItem as BabelPlugin } from '@babel/core';
 import type webpack from 'webpack';
 import type {
   RuleSetRule,
   Configuration as WebpackConfiguration,
+  WebpackPluginInstance,
 } from 'webpack';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
 import type autoprefixer from 'autoprefixer';
@@ -30,7 +35,10 @@ import type { PostCSSLoaderOptions } from './postcss';
 import type { TsLoaderOptions } from './ts-loader';
 
 type AutoprefixerOptions = autoprefixer.Options;
-type TerserOptions = BasePluginOptions & RawTerserOptions;
+
+type TerserOptions = BasePluginOptions & {
+  terserOptions?: Partial<RawTerserOptions>;
+};
 
 export type {
   TestConfig,
@@ -159,6 +167,7 @@ export interface ServerConfig {
   logger?: boolean | Record<string, any>;
   metrics?: boolean | Record<string, any>;
   enableMicroFrontendDebug?: boolean;
+  watchOptions?: WatchOptions;
 }
 
 export type DevProxyOptions = string | Record<string, string>;
@@ -233,9 +242,13 @@ export type WebpackConfigUtils = {
   env: string;
   name: string;
   webpack: typeof webpack;
-  addRules: (rules: RuleSetRule[]) => void;
-  prependPlugins: (plugins: WebpackConfiguration['plugins']) => void;
-  appendPlugins: (plugins: WebpackConfiguration['plugins']) => void;
+  addRules: (rules: RuleSetRule | RuleSetRule[]) => void;
+  prependPlugins: (
+    plugins: WebpackPluginInstance | WebpackPluginInstance[],
+  ) => void;
+  appendPlugins: (
+    plugins: WebpackPluginInstance | WebpackPluginInstance[],
+  ) => void;
   removePlugin: (pluginName: string) => void;
   /**
    * @deprecated please use `tools.webpackChain` instead.

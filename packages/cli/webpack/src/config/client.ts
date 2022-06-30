@@ -12,7 +12,6 @@ import {
   findExists,
   isFastRefresh,
 } from '@modern-js/utils';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import webpack, {
   DefinePlugin,
@@ -21,7 +20,6 @@ import webpack, {
 } from 'webpack';
 import { Entrypoint } from '@modern-js/types';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
-import CopyPlugin from '../../compiled/copy-webpack-plugin';
 import { WebpackManifestPlugin } from '../../compiled/webpack-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
 import { AppIconPlugin } from '../plugins/app-icon-plugin';
@@ -35,8 +33,6 @@ const { USE, RULE, ONE_OF, PLUGIN } = CHAIN_ID;
 export class ClientWebpackConfig extends BaseWebpackConfig {
   htmlFilename: (name: string) => string;
 
-  coreJsEntry: string;
-
   constructor(appContext: IAppContext, options: NormalizedConfig) {
     super(appContext, options);
     this.htmlFilename = (name: string) =>
@@ -45,7 +41,6 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
           this.options.output.disableHtmlFolder ? name : `${name}/index`
         }.html`,
       );
-    this.coreJsEntry = path.resolve(__dirname, '../runtime/core-js-entry.js');
     this.babelPresetAppOptions = {
       target: 'client',
     };
@@ -122,12 +117,6 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     return isDev() && this.options.tools?.devServer?.hot !== false;
   }
 
-  loaders() {
-    const loaders = super.loaders();
-    this.includeCoreJsEntry();
-    return loaders;
-  }
-
   plugins() {
     super.plugins();
 
@@ -142,6 +131,8 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     const { packageName } = this.appContext as IAppContext & {
       entrypoints: Entrypoint[];
     };
+
+    const HtmlWebpackPlugin: typeof import('html-webpack-plugin') = require('html-webpack-plugin');
 
     // output html files
     const entrypoints = Object.keys(this.chain.entryPoints.entries() || {});
@@ -367,6 +358,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     // options.patterns should be a non-empty array
     if (patterns.length) {
+      const CopyPlugin = require('../../compiled/copy-webpack-plugin');
       this.chain.plugin(PLUGIN.COPY).use(CopyPlugin, [{ patterns }]);
     }
   }
@@ -404,16 +396,6 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
       for (const name of entryPoints) {
         this.chain.entry(name).prepend(this.coreJsEntry);
       }
-    }
-  }
-
-  // let babel to transform core-js-entry, make `useBuiltins: 'entry'` working
-  includeCoreJsEntry() {
-    if (this.options.output.polyfill === 'entry') {
-      this.chain.module
-        .rule(RULE.LOADERS)
-        .oneOf(ONE_OF.JS)
-        .include.add(this.coreJsEntry);
     }
   }
 }

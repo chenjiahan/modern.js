@@ -1,11 +1,17 @@
-import fs from 'fs';
 import path from 'path';
+import type { Stats } from 'fs';
 import {
   findExists,
+  fs,
   createDebugger,
   CONFIG_FILE_EXTENSIONS,
+  CONFIG_CACHE_DIR,
+  globby,
 } from '@modern-js/utils';
-import { bundleRequire } from '@modern-js/node-bundle-require';
+import {
+  bundleRequire,
+  defaultGetOutputFile,
+} from '@modern-js/node-bundle-require';
 
 const debug = createDebugger('load-config');
 
@@ -54,9 +60,48 @@ export const getDependencies = (filePath: string): string[] => {
   return deps;
 };
 
-const bundleRequireWithCatch = async (configFile: string): Promise<any> => {
+/**
+ *
+ * @param targetDir target dir
+ * @param overtime Unit of second
+ */
+export const clearFilesOverTime = async (
+  targetDir: string,
+  overtime: number,
+) => {
+  // when stats is true, globby return Stats[]
+  const files = (await globby(`${targetDir}/**/*`, {
+    stats: true,
+    absolute: true,
+  })) as unknown as { stats: Stats; path: string }[];
+  const currentTime = Date.now();
+  if (files.length > 0) {
+    for (const file of files) {
+      if (currentTime - file.stats.birthtimeMs >= overtime * 1000) {
+        fs.unlinkSync(file.path);
+      }
+    }
+  }
+};
+
+const bundleRequireWithCatch = async (
+  configFile: string,
+  { appDirectory }: { appDirectory: string },
+): Promise<any> => {
   try {
-    const mod = await bundleRequire(configFile);
+    const mod = await bundleRequire(configFile, {
+      autoClear: false,
+      getOutputFile: async (filePath: string) => {
+        const defaultOutputFileName = path.basename(
+          await defaultGetOutputFile(filePath),
+        );
+        const outputPath = path.join(appDirectory, CONFIG_CACHE_DIR);
+        // 10 min
+        const timeLimit = 10 * 60;
+        await clearFilesOverTime(outputPath, timeLimit);
+        return path.join(outputPath, defaultOutputFileName);
+      },
+    });
 
     return mod;
   } catch (e) {
@@ -111,7 +156,7 @@ export const loadConfig = async <T>(
   if (configFile) {
     delete require.cache[configFile];
 
-    const mod = await bundleRequireWithCatch(configFile);
+    const mod = await bundleRequireWithCatch(configFile, { appDirectory });
 
     config = mod.default || mod;
 

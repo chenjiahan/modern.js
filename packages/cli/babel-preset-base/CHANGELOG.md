@@ -1,5 +1,30 @@
 # @modern-js/babel-preset-base
 
+## 1.4.4
+
+### Patch Changes
+
+- 3050acc: change babel-plugin-macro babel config
+- a90bc96: perf(babel): skip babel-plugin-import if package not installed
+- Updated dependencies [a90bc96]
+  - @modern-js/utils@1.7.9
+
+## 1.4.3
+
+### Patch Changes
+
+- 8d0eb81f5: change babel-plugin-macro babel config
+
+## 1.4.2
+
+### Patch Changes
+
+- 073e9ad78: feat(webpack): improve utils of tools.webpack
+- Updated dependencies [63c354ad5]
+- Updated dependencies [073e9ad78]
+- Updated dependencies [f4a7d49e1]
+  - @modern-js/utils@1.7.8
+
 ## 1.4.1
 
 ### Patch Changes

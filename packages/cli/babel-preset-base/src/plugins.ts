@@ -1,4 +1,5 @@
 import { createBabelChain } from '@modern-js/babel-chain';
+import { isPackageInstalled } from '@modern-js/utils';
 import { IBaseBabelConfigOption } from '.';
 
 export const getPluginsChain = (option: IBaseBabelConfigOption) => {
@@ -19,9 +20,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
 
   chain
     .plugin('babel-plugin-macros')
-    .use(require.resolve('../compiled/babel-plugin-macros'), [
-      { twin: { preset: 'styled-components' } },
-    ]);
+    .use(require.resolve('../compiled/babel-plugin-macros'));
 
   if (runEnvironments === 'node') {
     chain
@@ -29,17 +28,19 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
       .use(require.resolve('../compiled/babel-plugin-dynamic-import-node'));
   }
 
-  const { antd } = babelPluginImport || { antd: { libraryDirectory: 'es' } };
-  chain
-    .plugin('babel-plugin-import')
-    .use(require.resolve('../compiled/babel-plugin-import'), [
-      {
-        libraryName: 'antd',
-        libraryDirectory: antd?.libraryDirectory || 'es',
-        style: true,
-      },
-      'import-antd',
-    ]);
+  if (isPackageInstalled('antd', option.appDirectory)) {
+    const { antd } = babelPluginImport || { antd: { libraryDirectory: 'es' } };
+    chain
+      .plugin('babel-plugin-import')
+      .use(require.resolve('../compiled/babel-plugin-import'), [
+        {
+          libraryName: 'antd',
+          libraryDirectory: antd?.libraryDirectory || 'es',
+          style: true,
+        },
+        'import-antd',
+      ]);
+  }
 
   chain
     .plugin('babel-plugin-lodash')

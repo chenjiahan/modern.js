@@ -4,6 +4,8 @@ sidebar_position: 1
 
 # 编译构建问题
 
+## 一. 配置类问题
+
 ### 如何配置 Webpack/Babel/PostCSS 等工具？
 
 请参考 [配置底层工具](/docs/guides/usages/low-level)。
@@ -40,6 +42,40 @@ export default defineConfig({
   },
 });
 ```
+
+### 如何移除代码中的 console？
+
+在生产环境构建时，我们可以移除代码中的 `console`，从而避免开发环境的日志被输出到生产环境。
+
+由于 Modern.js 默认在生产环境使用 [terser](https://github.com/terser/terser) 进行代码压缩，因此我们可以通过 [tools.terser](/docs/apis/config/tools/terser) 配置项来移除 `console`：
+
+```js title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    terser: opt => {
+      if (typeof opt.terserOptions?.compress === 'object') {
+        opt.terserOptions.compress.drop_console = true;
+      }
+    },
+  },
+});
+```
+
+如果只希望移除 `console.log` 和 `console.warn`，保留 `console.error`，可以配置为：
+
+```js title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    terser: opt => {
+      if (typeof opt.terserOptions?.compress === 'object') {
+        opt.terserOptions.compress.pure_funcs = ['console.log', 'console.warn'];
+      }
+    },
+  },
+});
+```
+
+## 二. 编译异常类问题
 
 ### 打包时出现 JavaScript heap out of memory?
 
@@ -107,3 +143,26 @@ Less v4 版本与 v3 版本相比，除法的写法有一些区别：
 Modern.js 内置的 Less 版本为 v4，低版本的写法不会生效，请注意区分。
 
 Less 中除法的写法也可以通过配置项来修改，详见 [Less - Math](https://lesscss.org/usage/#less-options-math)。
+
+### 编译产物中存在未编译的 ES6+ 代码？
+
+默认情况下，Modern.js 不会通过 `babel-loader` 或 `ts-loader` 来编译 `node_modules` 下的文件。如果项目引入的 npm 包中含有 ES6+ 语法，会被打包进产物中。
+
+遇到这种情况时，可以通过 [source.include](/docs/apis/config/source/include) 配置项来指定需要额外进行编译的目录或模块。
+
+### 编译时报错 `You may need additional loader`？
+
+如果编译过程中遇到了以下报错提示，表示存在个别文件无法被正确编译。
+
+```bash
+Module parse failed: Unexpected token
+File was processed with these loaders:
+ * some-loader/index.js
+
+You may need an additional loader to handle the result of these loaders.
+```
+
+解决方法：
+
+- 如果是引用了当前工程外部或 node_modules 下的 `.ts` 文件，请通过 [source.include](/docs/apis/config/source/include) 配置项来指定需要额外进行编译。
+- 如果是引用了 Modern.js 不支持的文件格式，请自行配置对应的 webpack loader 进行编译。

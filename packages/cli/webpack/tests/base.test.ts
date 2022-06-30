@@ -3,15 +3,15 @@
 import path from 'path';
 import { NormalizedConfig } from '@modern-js/core';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
-import { CHAIN_ID } from '@modern-js/utils';
+import { CHAIN_ID, fs } from '@modern-js/utils';
 import { BaseWebpackConfig } from '../src/config/base';
 import { JS_REGEX, TS_REGEX } from '../src/utils/constants';
 import { mergeRegex } from '../src/utils/mergeRegex';
-import { getWebpackUtils } from '../src/config/shared';
-import { userConfig, mockNodeEnv } from './util';
+import { userConfig, mockNodeEnv, setPathSerializer } from './util';
 
 describe('base webpack config', () => {
   const fixtures = path.resolve(__dirname, './fixtures');
+
   const appContext: any = {
     appDirectory: fixtures,
     internalDirectory: '/node_modules/.modern-js',
@@ -39,12 +39,13 @@ describe('base webpack config', () => {
   }
 
   test(`default webpack config`, () => {
-    userConfig.source.include = ['query-string'];
-
-    const config = new BaseWebpackConfig(
-      appContext,
-      userConfig as any,
-    ).config();
+    const config = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      source: {
+        ...userConfig.source,
+        include: ['query-string'],
+      },
+    } as any).config();
 
     // todo fix
     // expect(config.output).toEqual(
@@ -65,7 +66,6 @@ describe('base webpack config', () => {
       expect.objectContaining({
         oneOf: expect.arrayContaining([
           expect.objectContaining({
-            include: expect.arrayContaining([expect.any(Function)]),
             test: mergeRegex(JS_REGEX, TS_REGEX),
           }),
         ]),
@@ -155,6 +155,7 @@ describe('base webpack config', () => {
       config,
       utils,
     ) => {
+      utils.addRules(newRule);
       utils.addRules([newRule]);
     };
 
@@ -166,6 +167,7 @@ describe('base webpack config', () => {
     } as any);
 
     expect(baseConfig.config().module.rules[0]).toEqual(newRule);
+    expect(baseConfig.config().module.rules[1]).toEqual(newRule);
   });
 
   test(`apply tools.webpack and using utils.prependPlugins`, () => {
@@ -173,6 +175,7 @@ describe('base webpack config', () => {
       config,
       utils,
     ) => {
+      utils.prependPlugins(new MyPlugin());
       utils.prependPlugins([new MyPlugin()]);
     };
 
@@ -184,6 +187,7 @@ describe('base webpack config', () => {
     } as any);
 
     expect(baseConfig.config().plugins[0].constructor.name).toEqual('MyPlugin');
+    expect(baseConfig.config().plugins[1].constructor.name).toEqual('MyPlugin');
   });
 
   test(`apply tools.webpack and using utils.appendPlugins`, () => {
@@ -191,6 +195,7 @@ describe('base webpack config', () => {
       config,
       utils,
     ) => {
+      utils.appendPlugins(new MyPlugin());
       utils.appendPlugins([new MyPlugin()]);
     };
 
@@ -202,6 +207,7 @@ describe('base webpack config', () => {
     } as any);
 
     const { plugins } = baseConfig.config();
+    expect(plugins[plugins.length - 2].constructor.name).toEqual('MyPlugin');
     expect(plugins[plugins.length - 1].constructor.name).toEqual('MyPlugin');
   });
 
@@ -225,34 +231,6 @@ describe('base webpack config', () => {
     expect(
       plugins[plugins.length - 1].constructor.name === 'MyPlugin',
     ).toBeFalsy();
-  });
-
-  test('utils.appendPlugins should throw an error with incorrect argument type', () => {
-    const utils = getWebpackUtils({ plugins: [] });
-
-    expect(() => {
-      utils.appendPlugins(new MyPlugin() as any);
-    }).toThrowError();
-  });
-
-  test('utils.prependPlugins should throw an error with incorrect argument type', () => {
-    const utils = getWebpackUtils({ plugins: [] });
-
-    expect(() => {
-      utils.prependPlugins(new MyPlugin() as any);
-    }).toThrowError();
-  });
-
-  test('utils.addRules should throw an error with incorrect argument type', () => {
-    const utils = getWebpackUtils({
-      module: {
-        rules: [],
-      },
-    });
-
-    expect(() => {
-      utils.addRules({} as any);
-    }).toThrowError();
   });
 
   test(`should using output.assetPrefix as publicPath in dev`, () => {
@@ -325,16 +303,9 @@ describe('base webpack config', () => {
       .module.rule(CHAIN_ID.RULE.LOADERS)
       .oneOf(CHAIN_ID.ONE_OF.TS);
 
-    expect(rule.include.values().slice(2, 5)).toEqual([
-      /include-1/,
-      /include-2/,
-      /include-3/,
-    ]);
-    expect(rule.exclude.values()).toEqual([
-      /exclude-1/,
-      /exclude-2/,
-      /exclude-3/,
-    ]);
+    setPathSerializer();
+    expect(rule.include.values()).toMatchSnapshot();
+    expect(rule.exclude.values()).toMatchSnapshot();
   });
 
   test(`apply tools.babel and using utils.addIncludes/addExcludes`, () => {
@@ -364,16 +335,32 @@ describe('base webpack config', () => {
       .module.rule(CHAIN_ID.RULE.LOADERS)
       .oneOf(CHAIN_ID.ONE_OF.JS);
 
-    expect(rule.include.values().slice(2, 5)).toEqual([
-      /include-1/,
-      /include-2/,
-      /include-3/,
-    ]);
-    expect(rule.exclude.values()).toEqual([
-      /exclude-1/,
-      /exclude-2/,
-      /exclude-3/,
-    ]);
+    setPathSerializer();
+    expect(rule.include.values()).toMatchSnapshot();
+    expect(rule.exclude.values()).toMatchSnapshot();
+  });
+
+  test(`should exclude api dir from babel-loader when api dir exists`, () => {
+    const fsSpy = jest.spyOn(fs, 'existsSync');
+    fsSpy.mockReturnValue(true);
+
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      output: {
+        ...userConfig.output,
+        path: `${__dirname}/dist`,
+      },
+    } as any);
+
+    const rule = baseConfig
+      .getChain()
+      .module.rule(CHAIN_ID.RULE.LOADERS)
+      .oneOf(CHAIN_ID.ONE_OF.JS);
+
+    setPathSerializer();
+    expect(rule.exclude.values()).toMatchSnapshot();
+
+    fsSpy.mockRestore();
   });
 
   test(`should apply module scope plugin when user config contains moduleScopes`, () => {

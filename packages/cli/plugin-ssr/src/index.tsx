@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import type { Plugin } from '@modern-js/runtime-core';
 import { loadableReady } from '@loadable/component';
 import { RenderLevel, SSRServerContext } from './serverRender/type';
-import { formatClient } from './utils';
+import { formatClient, mockResponse } from './utils';
 
 declare module '@modern-js/runtime-core' {
   interface RuntimeContext {
@@ -11,6 +11,7 @@ declare module '@modern-js/runtime-core' {
 
   interface TRuntimeContext {
     request: SSRServerContext['request'];
+    response: SSRServerContext['response'];
   }
 
   interface SSRContainer {
@@ -22,6 +23,8 @@ declare module '@modern-js/runtime-core' {
 const ssr = (): Plugin => ({
   name: '@modern-js/plugin-ssr',
   setup: () => {
+    const mockResp = mockResponse();
+
     return {
       client: async ({ App, context, rootElement }) => {
         const renderLevel = window?._SSR_DATA?.renderLevel;
@@ -53,22 +56,32 @@ const ssr = (): Plugin => ({
           return next({ context });
         }
 
+        context.ssrContext.response = mockResp;
         context.ssrContext.request = formatClient(request);
         return next({ context });
       },
       pickContext: ({ context, pickedContext }, next) => {
         const request: SSRServerContext['request'] | undefined =
           window?._SSR_DATA?.context?.request;
+        const { initialData } = context;
 
         if (!request) {
-          return next({ context, pickedContext });
+          return next({
+            context,
+            pickedContext: {
+              ...pickedContext,
+              initialData,
+            },
+          });
         }
 
         return next({
           context,
           pickedContext: {
             ...pickedContext,
+            initialData,
             request,
+            response: mockResp,
           },
         });
       },

@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.3.7",
+  "version": "1.4.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -25,17 +25,6 @@
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
-    },
-    "./node": {
-      "jsnext:source": "./src/farrow-pipeline/asyncHooks.node.ts",
-      "default": "./dist/js/node/farrow-pipeline/asyncHooks.node.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "node": [
-        "./dist/types/farrow-pipeline/asyncHooks.node.d.ts"
-      ]
     }
   },
   "scripts": {

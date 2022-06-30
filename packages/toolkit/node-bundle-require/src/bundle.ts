@@ -37,10 +37,15 @@ export interface Options {
    * Get the path to the output file
    * By default we simply replace the extension with `.bundled.cjs`
    */
-  getOutputFile?: (filepath: string) => string;
+  getOutputFile?: (filepath: string) => Promise<string>;
+
+  /**
+   * auto clear bundle file
+   */
+  autoClear?: boolean;
 }
 
-const defaultGetOutputFile = (filepath: string) =>
+export const defaultGetOutputFile = async (filepath: string) =>
   path.resolve(
     CONFIG_CACHE_DIR,
     `${filepath}-${Date.now()}.${nanoid()}.bundled.cjs`,
@@ -54,7 +59,7 @@ export async function bundle(filepath: string, options?: Options) {
   debug('bundle', filepath, options);
 
   const getOutputFile = options?.getOutputFile || defaultGetOutputFile;
-  const outfile = getOutputFile(path.basename(filepath));
+  const outfile = await getOutputFile(path.basename(filepath));
 
   await build({
     entryPoints: [filepath],

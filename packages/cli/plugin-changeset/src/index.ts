@@ -1,7 +1,9 @@
 import type { CliPlugin } from '@modern-js/core';
-import { change, bump, pre, release } from './commands';
+import { change, bump, pre, release, status, genReleaseNote } from './commands';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils';
+
+export * from './commands';
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-changeset',
@@ -27,6 +29,15 @@ export default (): CliPlugin => ({
           .description(i18n.t(localeKeys.command.bump.describe))
           .option('--canary', i18n.t(localeKeys.command.bump.canary), false)
           .option(
+            '--ignore <package>',
+            i18n.t(localeKeys.command.bump.ignore),
+            (val: string, memo: string[]) => {
+              memo.push(val);
+              return memo;
+            },
+            [],
+          )
+          .option(
             '--preid <tag>',
             i18n.t(localeKeys.command.bump.preid),
             'next',
@@ -47,6 +58,7 @@ export default (): CliPlugin => ({
           .command('release')
           .description(i18n.t(localeKeys.command.release.describe))
           .option('--tag <tag>', i18n.t(localeKeys.command.release.tag), '')
+          .option('--otp <token>', i18n.t(localeKeys.command.release.otp), '')
           .option(
             '--ignore-scripts',
             i18n.t(localeKeys.command.release.ignore_scripts),
@@ -58,6 +70,27 @@ export default (): CliPlugin => ({
             '',
           )
           .action((options: any) => release(options));
+
+        program
+          .command('change-status')
+          .description(i18n.t(localeKeys.command.status.describe))
+          .option('--verbose', i18n.t(localeKeys.command.status.verbose))
+          .option('--output <file>', i18n.t(localeKeys.command.status.output))
+          .option('--since <ref>', i18n.t(localeKeys.command.status.since))
+          .action((options: any) => status(options));
+
+        program
+          .command('gen-release-note')
+          .description(i18n.t(localeKeys.command.gen_release_note.describe))
+          .option(
+            '--repo <repo>',
+            i18n.t(localeKeys.command.gen_release_note.repo),
+          )
+          .option(
+            '--custom <cumtom>',
+            i18n.t(localeKeys.command.gen_release_note.custom),
+          )
+          .action((options: any) => genReleaseNote(options));
       },
     };
   },

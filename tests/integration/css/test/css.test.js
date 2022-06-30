@@ -4,7 +4,6 @@ const { resolve } = require('path');
 const { fs } = require('@modern-js/utils');
 const {
   modernBuild,
-  installDeps,
   clearBuildDist,
   getPort,
   launchApp,
@@ -16,10 +15,6 @@ const { getCssFiles, readCssFile, copyModules } = require('./utils');
 const { readdirSync, readFileSync } = fs;
 
 const fixtures = path.resolve(__dirname, '../fixtures');
-
-beforeAll(async () => {
-  await installDeps(fixtures);
-});
 
 afterAll(() => {
   clearBuildDist(fixtures);
@@ -270,7 +265,8 @@ describe('test css support', () => {
     });
     it(`should generate css ts declaration file`, async () => {
       const appDir = path.resolve(fixtures, 'css-ts-declaration');
-      await modernBuild(appDir);
+      const port = await getPort();
+      const app = await launchApp(appDir, port);
 
       const generatedDTSFile = path.resolve(
         appDir,
@@ -282,6 +278,7 @@ describe('test css support', () => {
       );
 
       fs.unlinkSync(generatedDTSFile);
+      await killApp(app);
     });
   });
 });

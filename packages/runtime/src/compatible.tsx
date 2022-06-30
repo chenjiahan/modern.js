@@ -1,8 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { createContainer } from '@modern-js/plugin';
-import { Plugin, runtime, AppComponentContext } from './plugin';
+import { Plugin, runtime } from './plugin';
 import {
   RuntimeReactContext,
   RuntimeContext,
@@ -23,19 +22,22 @@ function isClientArgs(
   );
 }
 
-const runnerMap = new WeakMap<
-  React.ComponentType<any>,
-  ReturnType<typeof runtime.init>
->();
+type PluginRunner = ReturnType<typeof runtime.init>;
+
+const runnerMap = new WeakMap<React.ComponentType<any>, PluginRunner>();
+
+const getInitialContext = (runner: PluginRunner) => ({
+  loaderManager: createLoaderManager({}),
+  runner,
+  isBrowser: true,
+});
 
 export const createApp = ({ plugins }: CreateAppOptions) => {
   const appRuntime = runtime.clone();
   appRuntime.usePlugin(...plugins);
 
-  return (App: React.ComponentType<any>) => {
-    const runner = appRuntime.init({});
-
-    const container = createContainer({ App: AppComponentContext.create(App) });
+  return (App?: React.ComponentType<any>) => {
+    const runner = appRuntime.init();
 
     const WrapperComponent: React.ComponentType<any> = props => {
       const element = React.createElement(
@@ -48,7 +50,6 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
       return runner.provide(
         { element, props: { ...props }, context },
         {
-          container,
           onLast: ({ element }) => element,
         },
       );
@@ -61,16 +62,13 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
     const HOCApp = runner.hoc(
       { App: WrapperComponent },
       {
-        container,
         onLast: ({ App }: any) => {
           const WrapComponent = ({ context, ...props }: any) => {
             let contextValue = context;
 
-            if (!contextValue) {
-              contextValue = {
-                loaderManager: createLoaderManager({}),
-                runner,
-              };
+            // We should construct the context, when root component is not passed into `bootstrap`.
+            if (!contextValue?.runner) {
+              contextValue = getInitialContext(runner);
 
               runner.init(
                 { context: contextValue },
@@ -119,11 +117,7 @@ export const bootstrap: BootStrap = async (
     runner = runnerMap.get(App)!;
   }
 
-  const context: any = {
-    loaderManager: createLoaderManager({}),
-    runner,
-    isBrowser: true,
-  };
+  const context: any = getInitialContext(runner);
 
   const runInit = (_context: RuntimeContext) =>
     runner!.init(
@@ -166,7 +160,11 @@ export const bootstrap: BootStrap = async (
         ...(ssrData ? { ssrContext: ssrData?.context } : {}),
       });
 
-      await runInit(context);
+      context.initialData = ssrData?.data?.initialData;
+      const initialData = await runInit(context);
+      if (!context.initialData) {
+        context.initialData = initialData;
+      }
 
       return runner.client(
         {
@@ -178,7 +176,7 @@ export const bootstrap: BootStrap = async (
               : document.getElementById(id || 'root')!,
         },
         {
-          onLast: async ({ App, rootElement }) => {
+          onLast: ({ App, rootElement }) => {
             ReactDOM.render(React.createElement(App, { context }), rootElement);
           },
         },
@@ -203,7 +201,8 @@ export const bootstrap: BootStrap = async (
       ),
     });
 
-    await runInit(context);
+    const initialData = await runInit(context);
+    context.initialData = initialData;
 
     return runner.server({
       App,

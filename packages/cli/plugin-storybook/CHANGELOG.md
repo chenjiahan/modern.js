@@ -1,5 +1,44 @@
 # @modern-js/plugin-storybook
 
+## 1.3.13
+
+### Patch Changes
+
+- f29e9ba: feat: simplify context usage, no longer depend on containers
+- Updated dependencies [550e2bd]
+- Updated dependencies [87eb9f8]
+- Updated dependencies [dc37349]
+- Updated dependencies [2b06fe3]
+- Updated dependencies [3050acc]
+- Updated dependencies [338496c]
+- Updated dependencies [3050acc]
+- Updated dependencies [a90bc96]
+  - @modern-js/webpack@1.11.3
+  - @modern-js/plugin-router@1.2.16
+  - @modern-js/runtime@1.3.4
+  - @modern-js/utils@1.7.9
+  - @modern-js/plugin-state@1.2.10
+
+## 1.3.12
+
+### Patch Changes
+
+- 00b3fc43b: change output path
+- Updated dependencies [06b411dc3]
+- Updated dependencies [5d4806f86]
+- Updated dependencies [63c354ad5]
+- Updated dependencies [4165e50c7]
+- Updated dependencies [073e9ad78]
+- Updated dependencies [cda99c441]
+- Updated dependencies [b96dcf364]
+- Updated dependencies [f4a7d49e1]
+- Updated dependencies [9e36d3a01]
+  - @modern-js/webpack@1.11.1
+  - @modern-js/utils@1.7.8
+  - @modern-js/plugin-router@1.2.15
+  - @modern-js/runtime@1.3.2
+  - @modern-js/plugin-state@1.2.10
+
 ## 1.3.11
 
 ### Patch Changes

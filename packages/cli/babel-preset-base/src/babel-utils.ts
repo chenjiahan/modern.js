@@ -1,12 +1,7 @@
 import { sep, isAbsolute } from 'path';
+import { ensureArray } from '@modern-js/utils';
+import type { BabelConfigUtils } from '@modern-js/core';
 import type { TransformOptions, PluginItem } from '@babel/core';
-
-const ensureArray = <T>(params: T | T[]): T[] => {
-  if (Array.isArray(params)) {
-    return params;
-  }
-  return [params];
-};
 
 // compatible with windows path
 const formatPath = (originPath: string) => {
@@ -80,9 +75,19 @@ const removePresets = (
   });
 };
 
-export const getBabelUtils = (config: TransformOptions) => ({
-  addPlugins: (plugins: PluginItem[]) => addPlugins(plugins, config),
-  addPresets: (presets: PluginItem[]) => addPresets(presets, config),
-  removePlugins: (plugins: string | string[]) => removePlugins(plugins, config),
-  removePresets: (presets: string | string[]) => removePresets(presets, config),
-});
+export const getBabelUtils = (config: TransformOptions): BabelConfigUtils => {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  const noop = () => {};
+  return {
+    addPlugins: (plugins: PluginItem[]) => addPlugins(plugins, config),
+    addPresets: (presets: PluginItem[]) => addPresets(presets, config),
+    removePlugins: (plugins: string | string[]) =>
+      removePlugins(plugins, config),
+    removePresets: (presets: string | string[]) =>
+      removePresets(presets, config),
+    // `addIncludes` and `addExcludes` are noop functions by default,
+    // It can be overridden by `extraBabelUtils`.
+    addIncludes: noop,
+    addExcludes: noop,
+  };
+};

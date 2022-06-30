@@ -35,23 +35,9 @@ Object {
     ],
     Array [
       /cli/babel-preset-base/compiled/babel-plugin-macros/index.js,
-      Object {
-        "twin": Object {
-          "preset": "styled-components",
-        },
-      },
     ],
     Array [
       /cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js,
-    ],
-    Array [
-      /cli/babel-preset-base/compiled/babel-plugin-import/index.js,
-      Object {
-        "libraryDirectory": "es",
-        "libraryName": "antd",
-        "style": true,
-      },
-      "import-antd",
     ],
     Array [
       /cli/babel-preset-base/compiled/babel-plugin-lodash/index.js,
@@ -74,7 +60,7 @@ Object {
         "helpers": false,
         "regenerator": true,
         "useESModules": true,
-        "version": "7.18.3",
+        "version": "7.18.6",
       },
     ],
     Array [

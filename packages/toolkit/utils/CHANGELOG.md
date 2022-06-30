@@ -1,5 +1,25 @@
 # @modern-js/utils
 
+## 1.7.10
+
+### Patch Changes
+
+- b82869d: export ExecaError type
+
+## 1.7.9
+
+### Patch Changes
+
+- a90bc96: perf(babel): skip babel-plugin-import if package not installed
+
+## 1.7.8
+
+### Patch Changes
+
+- 63c354ad5: fix normalizeToPosixPath utils function args would be null
+- 073e9ad78: feat(webpack): improve utils of tools.webpack
+- f4a7d49e1: fix: applyOptionsChain argument type
+
 ## 1.7.7
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @modern-js/plugin
 
+## 1.4.0
+
+### Minor Changes
+
+- f29e9ba: feat(plugin): simplify context usage, no longer depend on containers
+
+## 1.3.8
+
+### Patch Changes
+
+- b7302f781: Export some required types
+- e0e708f83: perf(app-tools): speed up modern start command
+
 ## 1.3.7
 
 ### Patch Changes

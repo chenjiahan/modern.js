@@ -17,7 +17,6 @@ function runModernCommand(argv, options = {}) {
   };
 
   return new Promise((resolve, reject) => {
-    // console.log(`Running command "modern ${argv.join(' ')}"`);
     const instance = spawn(process.execPath, [kModernBin, ...argv], {
       ...options.spawnOptions,
       cwd,
@@ -39,14 +38,15 @@ function runModernCommand(argv, options = {}) {
     let stdoutOutput = '';
     // if (options.stdout) {
     instance.stdout.on('data', async chunk => {
-      let marker = options.marker || /compiled successfully/i;
+      let { marker } = options;
       if (cmd === 'deploy') {
         marker = /end deploy!/i;
       }
       stdoutOutput += chunk;
       const message = chunk.toString();
-      if (marker.test(message)) {
+      if (marker && marker.test(message)) {
         resolve({
+          code: 0,
           stdout: stdoutOutput,
         });
         await killApp(instance);
@@ -200,20 +200,6 @@ async function killApp(instance) {
   });
 }
 
-function markGuardian() {
-  // IGNORE
-}
-
-// eslint-disable-next-line no-unused-vars
-function installDeps(dir) {
-  // console.log(`Installing dependencies in ${dir}`);
-  // FIXME: 跳过本地依赖的安装，因为在根目录执行 pnpm install --ignore-scripts 的时候已经安装好了
-  // spawn.sync('pnpm', ['install', '--filter', './', '--ignore-scripts'], {
-  //   stdio: 'inherit',
-  //   cwd: dir,
-  // });
-}
-
 // eslint-disable-next-line no-unused-vars
 function clearBuildDist(dir) {
   // console.log(`Clearing build dist in ${dir}`);
@@ -252,9 +238,7 @@ module.exports = {
   modernStart,
   launchApp,
   killApp,
-  markGuardian,
   getPort,
-  installDeps,
   clearBuildDist,
   sleep,
 };

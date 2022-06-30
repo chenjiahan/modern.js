@@ -5,8 +5,6 @@ import plugin from '../src/plugin';
 import { APIPlugin } from './helpers';
 import './common';
 
-const INTROSPECTION_ROUTE_PATH = '/__introspection__';
-
 describe('lambda-mode', () => {
   const id = '666';
   const name = 'foo';
@@ -16,10 +14,11 @@ describe('lambda-mode', () => {
 
   beforeAll(async () => {
     serverManager.usePlugin(APIPlugin).usePlugin(plugin);
-    const runner = await serverManager.init({});
+    const runner = await serverManager.init();
     apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
   });
 
@@ -95,12 +94,6 @@ describe('lambda-mode', () => {
       name: 'xxx',
     });
     expect(res3.status).toBe(500);
-  });
-
-  test('introspection', async () => {
-    const res = await request(apiHandler).get(INTROSPECTION_ROUTE_PATH);
-    expect(res.status).toBe(200);
-    expect(res.body.protocol).toBe('Farrow-API');
   });
 
   test('should support upload file', done => {

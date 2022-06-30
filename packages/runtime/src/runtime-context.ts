@@ -10,5 +10,7 @@ export interface RuntimeContext {
 
 export const RuntimeReactContext = createContext<RuntimeContext>({} as any);
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface TRuntimeContext {}
+export interface TRuntimeContext {
+  initialData?: Record<string, unknown>;
+  [key: string]: any;
+}
