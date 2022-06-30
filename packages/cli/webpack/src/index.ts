@@ -21,7 +21,7 @@ export enum WebpackConfigTarget {
   MODERN,
 }
 
-export const getWebpackConfig = (
+export const getWebpackConfig = async (
   target: WebpackConfigTarget,
   appContext: IAppContext,
   resolvedConfig: NormalizedConfig,

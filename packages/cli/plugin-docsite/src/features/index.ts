@@ -44,7 +44,7 @@ export async function buildDocs({
   }
   const tmpDir = path.join(internalDirectory, './docs');
   fs.ensureDirSync(tmpDir);
-  const finalWebpackConfig = wp.generatorWebpackConfig(
+  const finalWebpackConfig = await wp.generatorWebpackConfig(
     appContext,
     modernConfig,
     tmpDir,

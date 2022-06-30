@@ -60,8 +60,16 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
     );
     const webpackConfigs = [
       isSSR(userConfig) &&
-        getWebpackConfig(WebpackConfigTarget.NODE, appContext, userConfig),
-      getWebpackConfig(WebpackConfigTarget.CLIENT, appContext, userConfig),
+        (await getWebpackConfig(
+          WebpackConfigTarget.NODE,
+          appContext,
+          userConfig,
+        )),
+      await getWebpackConfig(
+        WebpackConfigTarget.CLIENT,
+        appContext,
+        userConfig,
+      ),
     ].filter(Boolean) as Configuration[];
 
     compiler = await createCompiler({

@@ -394,16 +394,15 @@ class BaseWebpackConfig {
     return loaders;
   }
 
-  plugins() {
-    const WebpackBar = require('../../compiled/webpackbar');
+  async plugins() {
+    const WebpackBar = await import('./client');
     // progress bar
     this.chain
       .plugin(PLUGIN.PROGRESS)
       .use(WebpackBar, [{ name: this.chain.get('name') }]);
-
     if (enableCssExtract(this.options)) {
-      const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-      this.chain.plugin(PLUGIN.MINI_CSS_EXTRACT).use(MiniCssExtractPlugin, [
+      const MiniCssPlugin = (await import('mini-css-extract-plugin')).default;
+      this.chain.plugin(PLUGIN.MINI_CSS_EXTRACT).use(MiniCssPlugin, [
         {
           filename: this.cssChunkName,
           chunkFilename: this.cssChunkName,
@@ -411,14 +410,12 @@ class BaseWebpackConfig {
         },
       ]);
     }
-
     this.chain.plugin(PLUGIN.IGNORE).use(IgnorePlugin, [
       {
         resourceRegExp: /^\.\/locale$/,
         contextRegExp: /moment$/,
       },
     ]);
-
     const { output } = this.options;
     if (
       // only enable ts-checker plugin in ts project
@@ -427,7 +424,9 @@ class BaseWebpackConfig {
       !output.enableTsLoader &&
       !output.disableTsChecker
     ) {
-      const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+      const ForkTsCheckerWebpackPlugin = (
+        await import('fork-ts-checker-webpack-plugin')
+      ).default;
       this.chain.plugin(PLUGIN.TS_CHECKER).use(ForkTsCheckerWebpackPlugin, [
         {
           typescript: {
@@ -458,7 +457,7 @@ class BaseWebpackConfig {
     }
   }
 
-  resolve() {
+  async resolve() {
     // resolve extensions
     const extensions = JS_RESOLVE_EXTENSIONS.filter(
       ext => this.isTsProject || !ext.includes('ts'),
@@ -501,12 +500,12 @@ class BaseWebpackConfig {
       .add('node_modules')
       .add(this.appContext.nodeModulesDirectory);
 
-    this.applyModuleScopePlugin();
+    await this.applyModuleScopePlugin();
 
     if (this.isTsProject) {
-      const {
-        TsConfigPathsPlugin,
-      } = require('../plugins/ts-config-paths-plugin');
+      const { TsConfigPathsPlugin } = await import(
+        '../plugins/ts-config-paths-plugin'
+      );
       // aliases from tsconfig.json
       this.chain.resolve
         .plugin(RESOLVE_PLUGIN.TS_CONFIG_PATHS)
@@ -533,7 +532,7 @@ class BaseWebpackConfig {
     });
   }
 
-  optimization() {
+  async optimization() {
     const minimize = isProd() && !this.options.output?.disableMinimize;
 
     this.chain.optimization
@@ -544,8 +543,10 @@ class BaseWebpackConfig {
       });
 
     if (minimize) {
-      const TerserPlugin = require('terser-webpack-plugin');
-      const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+      const TerserPlugin = (await import('terser-webpack-plugin')).default;
+      const CssMinimizerPlugin = (await import('css-minimizer-webpack-plugin'))
+        .default;
+
       this.chain.optimization
         .minimizer(MINIMIZER.JS)
         .use(TerserPlugin, [
@@ -587,8 +588,8 @@ class BaseWebpackConfig {
     this.chain.merge({ infrastructureLogging: getWebpackLogging() });
   }
 
-  config() {
-    const chain = this.getChain();
+  async config() {
+    const chain = await this.getChain();
     const chainConfig = chain.toConfig();
 
     let finalConfig = chainConfig;
@@ -651,7 +652,7 @@ class BaseWebpackConfig {
     return finalConfig;
   }
 
-  applyModuleScopePlugin() {
+  async applyModuleScopePlugin() {
     const userConfig = this.options._raw;
 
     // only apply module scope plugin when user config contains moduleScopes
@@ -682,7 +683,9 @@ class BaseWebpackConfig {
       }
     }
 
-    const { ModuleScopePlugin } = require('../plugins/module-scope-plugin');
+    const { ModuleScopePlugin } = await import(
+      '../plugins/module-scope-plugin'
+    );
     this.chain.resolve
       .plugin(RESOLVE_PLUGIN.MODULE_SCOPE)
       .use(ModuleScopePlugin, [
@@ -862,7 +865,7 @@ class BaseWebpackConfig {
       .options(tsLoaderOptions);
   }
 
-  getChain() {
+  async getChain() {
     this.chain.context(this.appDirectory);
 
     this.chain.bail(isProd());
@@ -875,12 +878,12 @@ class BaseWebpackConfig {
     this.entry();
     this.output();
     this.loaders();
-    this.plugins();
-    this.resolve();
-    this.cache();
-    this.optimization();
-    this.stats();
-    this.applyToolsWebpackChain();
+    await this.plugins();
+    // await this.resolve();
+    // this.cache();
+    // await this.optimization();
+    // this.stats();
+    // this.applyToolsWebpackChain();
 
     return this.chain;
   }

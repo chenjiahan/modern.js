@@ -31,8 +31,8 @@ class ModernWebpackConfig extends ClientWebpackConfig {
     this.chain.name('modern');
   }
 
-  plugins() {
-    super.plugins();
+  async plugins() {
+    await super.plugins();
 
     if (this.options.cliOptions?.analyze) {
       this.chain.plugin(CHAIN_ID.PLUGIN.BUNDLE_ANALYZER).tap(() => [

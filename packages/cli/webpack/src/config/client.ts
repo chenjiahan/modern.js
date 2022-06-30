@@ -55,8 +55,8 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     this.addCoreJsEntry();
   }
 
-  resolve() {
-    super.resolve();
+  async resolve() {
+    await super.resolve();
 
     // node polyfill
     if (!this.options.output.disableNodePolyfill) {
@@ -66,7 +66,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     }
   }
 
-  private getNodePolyfill(): Record<string, string | false> {
+  getNodePolyfill(): Record<string, string | false> {
     const nodeLibsBrowser = require('node-libs-browser');
     return Object.keys(nodeLibsBrowser).reduce<Record<string, string | false>>(
       (previous, name) => {
@@ -81,14 +81,14 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     );
   }
 
-  private getCustomPublicEnv() {
+  getCustomPublicEnv() {
     const { metaName } = this.appContext;
     const prefix = `${metaName.split(/[-_]/)[0]}_`.toUpperCase();
     const envReg = new RegExp(`^${prefix}`);
     return Object.keys(process.env).filter(key => envReg.test(key));
   }
 
-  private useDefinePlugin() {
+  useDefinePlugin() {
     const { envVars, globalVars } = this.options.source || {};
     const publicEnvVars = this.getCustomPublicEnv();
     this.chain.plugin(PLUGIN.DEFINE).use(DefinePlugin, [
@@ -117,12 +117,12 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     return isDev() && this.options.tools?.devServer?.hot !== false;
   }
 
-  plugins() {
-    super.plugins();
+  async plugins() {
+    await super.plugins();
 
     this.useDefinePlugin();
-    this.useCopyPlugin();
-    this.useFastRefresh();
+    await this.useFastRefresh();
+    await this.useCopyPlugin();
 
     if (this.isUsingHMR()) {
       this.chain.plugin(PLUGIN.HMR).use(HotModuleReplacementPlugin);
@@ -132,7 +132,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
       entrypoints: Entrypoint[];
     };
 
-    const HtmlWebpackPlugin: typeof import('html-webpack-plugin') = require('html-webpack-plugin');
+    const HtmlWebpackPlugin = (await import('html-webpack-plugin')).default;
 
     // output html files
     const entrypoints = Object.keys(this.chain.entryPoints.entries() || {});
@@ -302,11 +302,11 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     }
 
     if (this.options.cliOptions?.analyze) {
-      enableBundleAnalyzer(this.chain, 'report.html');
+      await enableBundleAnalyzer(this.chain, 'report.html');
     }
   }
 
-  useCopyPlugin() {
+  async useCopyPlugin() {
     const configDir = path.resolve(
       this.appDirectory,
       this.options.source.configDir!,
@@ -358,14 +358,17 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     // options.patterns should be a non-empty array
     if (patterns.length) {
-      const CopyPlugin = require('../../compiled/copy-webpack-plugin');
+      const CopyPlugin = (await import('../../compiled/copy-webpack-plugin'))
+        .default;
       this.chain.plugin(PLUGIN.COPY).use(CopyPlugin, [{ patterns }]);
     }
   }
 
-  useFastRefresh() {
+  async useFastRefresh() {
     if (isFastRefresh() && this.isUsingHMR()) {
-      const ReactFastRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+      const ReactFastRefreshPlugin = (
+        await import('@pmmmwh/react-refresh-webpack-plugin')
+      ).default;
 
       this.chain.plugin(PLUGIN.REACT_FAST_REFRESH).use(ReactFastRefreshPlugin, [
         {

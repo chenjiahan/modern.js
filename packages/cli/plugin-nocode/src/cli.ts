@@ -45,11 +45,11 @@ export default (): CliPlugin => ({
       const modernConfig = api.useResolvedConfigContext();
       if (devCommand) {
         devCommand.command('nocode').action(async () => {
-          const webpackConfig = getWebpackConfig(
+          const webpackConfig = (await getWebpackConfig(
             WebpackConfigTarget.CLIENT,
             appContext,
             modernConfig,
-          ) as Configuration;
+          )) as Configuration;
           await dev(
             appDirectory,
             internalDirectory,
@@ -83,11 +83,11 @@ export default (): CliPlugin => ({
           const appContext = api.useAppContext();
           const { appDirectory, internalDirectory } = appContext;
           const modernConfig = api.useResolvedConfigContext();
-          const webpackConfig = getWebpackConfig(
+          const webpackConfig = (await getWebpackConfig(
             WebpackConfigTarget.CLIENT,
             appContext,
             modernConfig,
-          ) as Configuration;
+          )) as Configuration;
           await dev(
             appDirectory,
             internalDirectory,

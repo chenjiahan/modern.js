@@ -11,11 +11,13 @@ import {
   NODE_MODULES_REGEX,
 } from '../utils/constants';
 
-export function enableBundleAnalyzer(
+export async function enableBundleAnalyzer(
   config: WebpackChain,
   reportFilename: string,
 ) {
-  const BundleAnalyzerPlugin = require('../../compiled/webpack-bundle-analyzer');
+  const { BundleAnalyzerPlugin } = await import(
+    '../../compiled/webpack-bundle-analyzer'
+  );
   config.plugin(CHAIN_ID.PLUGIN.BUNDLE_ANALYZER).use(BundleAnalyzerPlugin, [
     {
       analyzerMode: 'static',

@@ -10,15 +10,15 @@ interface Alias {
   [index: string]: string | false | string[];
 }
 
-export function generatorWebpackConfig(
+export async function generatorWebpackConfig(
   appContext: IAppContext,
   modernConfig: NormalizedConfig,
   tmpDir: string,
   isDev: boolean,
-): Configuration {
+): Promise<Configuration> {
   const { appDirectory } = appContext;
   // FIXME: 这个包现在没有使用，待使用时再重构 webpack 配置的获取
-  const originConfig: any = getWebpackConfig(
+  const originConfig: any = await getWebpackConfig(
     WebpackConfigTarget.CLIENT,
     appContext,
     modernConfig,

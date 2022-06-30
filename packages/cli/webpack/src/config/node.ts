@@ -91,8 +91,8 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     this.chain.output.delete('chunkFilename');
   }
 
-  optimization() {
-    super.optimization();
+  async optimization() {
+    await super.optimization();
     this.chain.optimization.splitChunks(false as any).runtimeChunk(false);
   }
 
@@ -143,8 +143,8 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     ]);
   }
 
-  plugins() {
-    super.plugins();
+  async plugins() {
+    await super.plugins();
 
     this.useDefinePlugin();
 
@@ -152,12 +152,12 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     this.chain.plugins.delete(CHAIN_ID.PLUGIN.TS_CHECKER);
 
     if (this.options.cliOptions?.analyze) {
-      enableBundleAnalyzer(this.chain, 'report-ssr.html');
+      await enableBundleAnalyzer(this.chain, 'report-ssr.html');
     }
   }
 
-  resolve() {
-    super.resolve();
+  async resolve() {
+    await super.resolve();
     for (const ext of [
       '.node.js',
       '.node.jsx',
@@ -169,8 +169,8 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     this.chain.resolve.mainFields.clear().add('main');
   }
 
-  config() {
-    const config = super.config();
+  async config() {
+    const config = await super.config();
 
     // prod bundle all dependencies
     if (isProd()) {

@@ -23,8 +23,8 @@ describe('node webpack config', () => {
     internalSrcAlias: '@_modern_js_src',
   };
 
-  test(`webpack config target should be node`, () => {
-    const config = new NodeWebpackConfig(
+  test(`webpack config target should be node`, async () => {
+    const config = await new NodeWebpackConfig(
       appContext as any,
       userConfig as any,
     ).config();

@@ -15,11 +15,11 @@ const build: typeof import('./compiler') = Import.lazy('./compiler', require);
   (async () => {
     try {
       const { appDirectory, internalDirectory } = appContext;
-      const webpackConfig = getWebpackConfig(
+      const webpackConfig = (await getWebpackConfig(
         WebpackConfigTarget.CLIENT,
         appContext,
         resolved,
-      ) as Configuration;
+      )) as Configuration;
       build.default(webpackConfig, {
         appDirectory,
         internalDirectory,

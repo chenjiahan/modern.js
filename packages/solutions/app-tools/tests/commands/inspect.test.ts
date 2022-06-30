@@ -55,12 +55,12 @@ describe('inspect command', () => {
     }).toThrowError();
   });
 
-  test('should log result in console', () => {
+  test('should log result in console', async () => {
     const log = jest.fn();
     const logSpy = jest.spyOn(console, 'log').mockImplementation(log);
     const fsSpy = jest.spyOn(fs, 'outputFileSync');
 
-    printInspectResult(
+    await printInspectResult(
       WebpackConfigTarget.CLIENT,
       appContext,
       normalizedConfig,
@@ -72,12 +72,12 @@ describe('inspect command', () => {
     fsSpy.mockRestore();
   });
 
-  test('should not log result in console when console option is false', () => {
+  test('should not log result in console when console option is false', async () => {
     const log = jest.fn();
     const logSpy = jest.spyOn(console, 'log').mockImplementation(log);
     const fsSpy = jest.spyOn(fs, 'outputFileSync');
 
-    printInspectResult(
+    await printInspectResult(
       WebpackConfigTarget.CLIENT,
       appContext,
       normalizedConfig,

@@ -87,7 +87,7 @@ export default (): CliPlugin => {
             return next(utils);
           }
 
-          const webpackConfig = getWebpackConfig(
+          const webpackConfig = await getWebpackConfig(
             WebpackConfigTarget.CLIENT,
             appContext,
             userConfig,

@@ -21,7 +21,7 @@ export const formatWebpackConfig = (
   return `module.exports = ${stringify(config, { verbose })};`;
 };
 
-export const inspect = (api: PluginAPI, options: InspectOptions) => {
+export const inspect = async (api: PluginAPI, options: InspectOptions) => {
   process.env.NODE_ENV = options.env;
 
   const resolvedConfig = api.useResolvedConfigContext();
@@ -30,7 +30,7 @@ export const inspect = (api: PluginAPI, options: InspectOptions) => {
   const outputFiles: string[] = [];
 
   outputFiles.push(
-    printInspectResult(
+    await printInspectResult(
       WebpackConfigTarget.CLIENT,
       appContext,
       resolvedConfig,
@@ -40,7 +40,7 @@ export const inspect = (api: PluginAPI, options: InspectOptions) => {
 
   if (resolvedConfig.output.enableModernMode) {
     outputFiles.push(
-      printInspectResult(
+      await printInspectResult(
         WebpackConfigTarget.MODERN,
         appContext,
         resolvedConfig,
@@ -51,7 +51,7 @@ export const inspect = (api: PluginAPI, options: InspectOptions) => {
 
   if (isUseSSRBundle(resolvedConfig)) {
     outputFiles.push(
-      printInspectResult(
+      await printInspectResult(
         WebpackConfigTarget.NODE,
         appContext,
         resolvedConfig,
@@ -84,13 +84,13 @@ export const getTagByWebpackTarget = (webpackTarget: WebpackConfigTarget) => {
   }
 };
 
-export const printInspectResult = (
+export const printInspectResult = async (
   webpackTarget: WebpackConfigTarget,
   appContext: IAppContext,
   resolvedConfig: NormalizedConfig,
   options: InspectOptions,
 ) => {
-  const webpackConfig = getWebpackConfig(
+  const webpackConfig = await getWebpackConfig(
     webpackTarget,
     appContext,
     resolvedConfig,

@@ -117,7 +117,7 @@ export const build = async (api: PluginAPI, options?: BuildOptions) => {
   const buildConfigs: Array<{ type: string; config: any }> = [];
   buildConfigs.push({
     type: 'legacy',
-    config: getWebpackConfig(
+    config: await getWebpackConfig(
       WebpackConfigTarget.CLIENT,
       appContext,
       resolvedConfig,
@@ -127,7 +127,7 @@ export const build = async (api: PluginAPI, options?: BuildOptions) => {
   if (resolvedConfig.output.enableModernMode) {
     buildConfigs.push({
       type: 'modern',
-      config: getWebpackConfig(
+      config: await getWebpackConfig(
         WebpackConfigTarget.MODERN,
         appContext,
         resolvedConfig,
@@ -138,7 +138,7 @@ export const build = async (api: PluginAPI, options?: BuildOptions) => {
   if (isUseSSRBundle(resolvedConfig)) {
     buildConfigs.push({
       type: 'ssr',
-      config: getWebpackConfig(
+      config: await getWebpackConfig(
         WebpackConfigTarget.NODE,
         appContext,
         resolvedConfig,

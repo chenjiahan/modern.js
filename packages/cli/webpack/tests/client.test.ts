@@ -99,24 +99,23 @@ describe('@modern-js/webpack#config/client', () => {
 
     const client = new ClientWebpackConfig(appContext, options);
 
-    client.plugins();
-
-    client.chain.plugin(CHAIN_ID.PLUGIN.COPY).tap(options => {
-      expect(options[0].patterns.length).toEqual(2);
-      done();
-      return options;
+    client.plugins().then(() => {
+      client.chain.plugin(CHAIN_ID.PLUGIN.COPY).tap(options => {
+        expect(options[0].patterns.length).toEqual(2);
+        done();
+        return options;
+      });
+      fsSpy.mockRestore();
     });
-
-    fsSpy.mockRestore();
   });
 
-  it('should not register CopyPlugin when upload/public dir is not existed', () => {
+  it('should not register CopyPlugin when upload/public dir is not existed', async () => {
     const fsSpy = jest.spyOn(fs, 'existsSync');
     fsSpy.mockReturnValue(false);
 
     const client = new ClientWebpackConfig(appContext, options);
 
-    client.plugins();
+    await client.plugins();
 
     expect(isPluginRegistered(client.chain, CHAIN_ID.PLUGIN.COPY)).toBeFalsy();
     fsSpy.mockRestore();
@@ -127,7 +126,7 @@ describe('@modern-js/webpack#config/client', () => {
       entry.some((file: string) => file.includes('core-js-entry')),
     );
 
-  it('should include core-js-entry when output.polyfill is entry', () => {
+  it('should include core-js-entry when output.polyfill is entry', async () => {
     const client = new ClientWebpackConfig(appContext, {
       ...options,
       output: {
@@ -136,10 +135,10 @@ describe('@modern-js/webpack#config/client', () => {
       },
     });
 
-    expect(hasCoreJsEntry(client.config())).toBeTruthy();
+    expect(hasCoreJsEntry(await client.config())).toBeTruthy();
   });
 
-  it('should not include core-js-entry when output.polyfill is usage', () => {
+  it('should not include core-js-entry when output.polyfill is usage', async () => {
     const client = new ClientWebpackConfig(appContext, {
       ...options,
       output: {
@@ -148,10 +147,10 @@ describe('@modern-js/webpack#config/client', () => {
       },
     });
 
-    expect(hasCoreJsEntry(client.config())).toBeFalsy();
+    expect(hasCoreJsEntry(await client.config())).toBeFalsy();
   });
 
-  it('should not include core-js-entry when output.polyfill is ua', () => {
+  it('should not include core-js-entry when output.polyfill is ua', async () => {
     const client = new ClientWebpackConfig(appContext, {
       ...options,
       output: {
@@ -160,15 +159,15 @@ describe('@modern-js/webpack#config/client', () => {
       },
     });
 
-    expect(hasCoreJsEntry(client.config())).toBeFalsy();
+    expect(hasCoreJsEntry(await client.config())).toBeFalsy();
   });
 
-  it('should register HMR related plugins in development', () => {
+  it('should register HMR related plugins in development', async () => {
     const restore = mockNodeEnv('development');
     const client = new ClientWebpackConfig(appContext, options);
 
     client.loaders();
-    client.plugins();
+    await client.plugins();
 
     expect(isPluginRegistered(client.chain, CHAIN_ID.PLUGIN.HMR)).toBeTruthy();
     expect(
@@ -178,12 +177,12 @@ describe('@modern-js/webpack#config/client', () => {
     restore();
   });
 
-  it('should not register HMR related plugins in production', () => {
+  it('should not register HMR related plugins in production', async () => {
     const restore = mockNodeEnv('production');
     const client = new ClientWebpackConfig(appContext, options);
 
     client.loaders();
-    client.plugins();
+    await client.plugins();
 
     expect(isPluginRegistered(client.chain, CHAIN_ID.PLUGIN.HMR)).toBeFalsy();
     expect(
@@ -193,7 +192,7 @@ describe('@modern-js/webpack#config/client', () => {
     restore();
   });
 
-  it('should not register HMR related plugins when devServer.hot is false', () => {
+  it('should not register HMR related plugins when devServer.hot is false', async () => {
     const restore = mockNodeEnv('development');
     const client = new ClientWebpackConfig(appContext, {
       ...options,
@@ -205,7 +204,7 @@ describe('@modern-js/webpack#config/client', () => {
     });
 
     client.loaders();
-    client.plugins();
+    await client.plugins();
 
     expect(isPluginRegistered(client.chain, CHAIN_ID.PLUGIN.HMR)).toBeFalsy();
     expect(
