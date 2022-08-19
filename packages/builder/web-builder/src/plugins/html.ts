@@ -170,6 +170,15 @@ export const PluginHtml = (): BuilderPlugin => ({
             .use(HtmlWebpackPlugin, [finalOptions]);
         }),
       );
+
+      if (config.html?.scriptExt) {
+        const { ScriptExtHtmlWebpackPlugin } = await import(
+          '../webpackPlugins/ScriptExtHtmlPlugin'
+        );
+        chain
+          .plugin('script-ext')
+          .use(ScriptExtHtmlWebpackPlugin, [config.html.scriptExt]);
+      }
     });
   },
 });

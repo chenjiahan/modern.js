@@ -11,6 +11,7 @@ export interface HtmlConfig {
   favicon?: string;
   faviconByEntries?: Record<string, string | undefined>;
   mountId?: string;
+  scriptExt?: Record<string, unknown>;
   disableHtmlFolder?: boolean;
   templateParameters?: Record<string, unknown>;
   templateParametersByEntries?: Record<
