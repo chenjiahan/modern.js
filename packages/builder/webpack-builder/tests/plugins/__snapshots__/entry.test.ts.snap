@@ -40,3 +40,22 @@ exports[`plugins/entry > should set pre-entry correctly 1`] = `
   },
 }
 `;
+
+exports[`plugins/entry > should set pre-entry to entry description object correctly 1`] = `
+{
+  "entry": {
+    "foo": [
+      {
+        "dependOn": [
+          "src/bar.ts",
+        ],
+        "import": [
+          "src/pre-entry.ts",
+          "src/polyfill.ts",
+          "src/foo.ts",
+        ],
+      },
+    ],
+  },
+}
+`;

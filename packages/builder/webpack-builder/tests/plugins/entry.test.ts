@@ -45,4 +45,24 @@ describe('plugins/entry', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should set pre-entry to entry description object correctly', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginEntry()],
+      entry: {
+        foo: {
+          import: ['./src/polyfill.ts', './src/foo.ts'],
+          dependOn: ['./src/bar.ts'],
+        },
+      },
+      builderConfig: {
+        source: {
+          preEntry: './src/pre-entry.ts',
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
 });

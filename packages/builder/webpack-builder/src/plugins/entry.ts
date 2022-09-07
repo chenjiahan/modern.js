@@ -14,13 +14,29 @@ export const PluginEntry = (): BuilderPlugin => ({
       const preEntries = preEntry ? ensureArray(preEntry) : [];
 
       Object.keys(entry).forEach(entryName => {
-        preEntries.forEach(entry => {
-          chain.entry(entryName).add(entry);
-        });
-
-        ensureArray(entry[entryName]).forEach(item => {
-          chain.entry(entryName).add(item as string);
-        });
+        const entryValue = entry[entryName];
+        if (typeof entryValue === 'string' || Array.isArray(entryValue)) {
+          preEntries.forEach(entry => {
+            chain.entry(entryName).add(entry);
+          });
+          ensureArray(entryValue).forEach(item => {
+            chain.entry(entryName).add(item);
+          });
+        } else {
+          const mergedEntries = [
+            ...preEntries,
+            ...ensureArray(entryValue.import),
+          ];
+          chain.merge({
+            entry: {
+              ...chain.get('entry'),
+              [entryName]: {
+                ...entryValue,
+                import: mergedEntries,
+              },
+            },
+          });
+        }
       });
     });
   },
