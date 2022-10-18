@@ -1829,6 +1829,9 @@ pre.vue-container em {
 .api-group-ul.config-devtool .vp-link {
   font-size: 13px;
 }
+.api-group-ul .vp-link {
+  word-break: break-all;
+}
 .statusbar a {
   color: #7fffd4;
   text-decoration: underline;
