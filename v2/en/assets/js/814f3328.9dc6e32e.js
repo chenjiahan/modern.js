@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[2535],{45641:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Modern.js 2.0","permalink":"/v2/en/blog/index"}]}')}}]);
