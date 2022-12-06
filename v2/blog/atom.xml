@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://modernjs.dev/v2/blog</id>
     <title>Modern.js - 现代 Web 工程体系 Blog</title>
-    <updated>2022-12-01T06:03:52.000Z</updated>
+    <updated>2022-12-02T02:38:45.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://modernjs.dev/v2/blog"/>
     <subtitle>Modern.js - 现代 Web 工程体系 Blog</subtitle>
@@ -11,7 +11,7 @@
         <title type="html"><![CDATA[Modern.js 2.0]]></title>
         <id>/index</id>
         <link href="https://modernjs.dev/v2/blog/index"/>
-        <updated>2022-12-01T06:03:52.000Z</updated>
+        <updated>2022-12-02T02:38:45.000Z</updated>
         <summary type="html"><![CDATA[即将到来]]></summary>
         <content type="html"><![CDATA[<blockquote><p>即将到来</p></blockquote>]]></content>
     </entry>
