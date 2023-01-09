@@ -34,7 +34,7 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
     },
-    "./open": "./compiled/open/index.js",
+    "./better-opn": "./compiled/better-opn/index.js",
     "./webpack-5-chain": "./compiled/webpack-5-chain/index.js",
     "./test-stub": {
       "jsnext:source": "./src/test-stub/index.ts",
@@ -47,8 +47,8 @@
   },
   "typesVersions": {
     "*": {
-      "open": [
-        "./compiled/open/index.d.ts"
+      "better-opn": [
+        "./compiled/better-opn/index.d.ts"
       ],
       "webpack-5-chain": [
         "./compiled/webpack-5-chain/types/index.d.ts"

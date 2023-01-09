@@ -3567,6 +3567,7 @@ importers:
       babel-plugin-styled-components: 1.13.3
       babel-plugin-transform-react-remove-prop-types: 0.4.24
       better-ajv-errors: 1.2.0
+      better-opn: 3.0.2
       browserslist: 4.20.2
       chalk: 4.1.2
       chokidar: 3.5.3
@@ -3601,7 +3602,6 @@ importers:
       minimist: 1.2.6
       nanoid: 3.3.4
       normalize-path: 3.0.0
-      open: ^8.4.0
       ora: 5.4.1
       p-map: 4.0.0
       patch-console: 1.0.0
@@ -3713,6 +3713,7 @@ importers:
       babel-plugin-styled-components: 1.13.3
       babel-plugin-transform-react-remove-prop-types: 0.4.24
       better-ajv-errors: 1.2.0_ajv@8.11.0
+      better-opn: 3.0.2
       browserslist: 4.20.2
       chalk: 4.1.2
       chokidar: 3.5.3
@@ -3746,7 +3747,6 @@ importers:
       minimist: 1.2.6
       nanoid: 3.3.4
       normalize-path: 3.0.0
-      open: 8.4.0
       ora: 5.4.1
       p-map: 4.0.0
       patch-console: 1.0.0
@@ -17680,6 +17680,13 @@ packages:
       open: 7.4.2
     dev: false
 
+  /better-opn/3.0.2:
+    resolution: {integrity: sha512-aVNobHnJqLiUelTaHat9DZ1qM2w0C0Eym4LPI/3JxOnSokGVdsl1T1kN7TFvsEAD8G47A6VKQ0TVHqbBnYMJlQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      open: 8.4.0
+    dev: true
+
   /better-path-resolve/1.0.0:
     resolution: {integrity: sha512-pbnl5XzGBdrFU/wT4jqmJVPn2B6UHPBOhzMQkY/SPUPB6QtUXtmBHBIwCbXJol93mOpGMnQyP/+BB19q04xj7g==}
     engines: {node: '>=4'}
@@ -20393,7 +20400,6 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
-    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -23980,7 +23986,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.4_supports-color@6.1.0
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -36055,7 +36061,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
-    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}

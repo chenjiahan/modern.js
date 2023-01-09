@@ -205,7 +205,13 @@ export const TASKS: TaskConfig[] = [
   {
     packageDir: 'builder/builder-shared',
     packageName: '@modern-js/builder-shared',
-    dependencies: ['open', 'webpack-5-chain'],
+    dependencies: [
+      {
+        name: 'better-opn',
+        ignoreDts: true,
+      },
+      'webpack-5-chain',
+    ],
   },
   {
     packageDir: 'builder/builder-webpack-provider',

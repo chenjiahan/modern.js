@@ -22,7 +22,7 @@ export function PluginStartUrl(): DefaultBuilderPlugin {
         }
 
         const { default: open } = await import(
-          '@modern-js/builder-shared/open'
+          '@modern-js/builder-shared/better-opn'
         );
         const urls: string[] = [];
         if (startUrl === true) {
