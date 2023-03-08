@@ -6,6 +6,41 @@ extractApiHeaders: [2]
 
 本章节描述了 Builder 中与底层工具有关的配置。
 
+```ts
+> modern new
+? Action: Enable features
+? Enable features: Tailwind CSS
+
+[INFO] Plugin dependency installed successfully!
+[INFO] Please add the following code to `modern.config.ts`:
+
+import tailwindCSSPlugin from '@modern-js/plugin-tailwindcss';
+
+export default defineConfig({
+  ...,
+  plugins: [..., tailwindCSSPlugin()],
+});
+```
+
+```ts
+// modern.config.ts
+export default defineConfig({
+  runtime: {
+    router: true,
+  },
+});
+```
+
+```ts
+// modern.config.ts
+import koaPlugin from '@edenx/plugin-koa';
+import bffPlugin from '@edenx/plugin-bff';
+
+export default defineConfig({
+  plugins: [koaPlugin(), bffPlugin()],
+});
+```
+
 ## tools.autoprefixer
 
 import Autoprefixer from '@zh/config/tools/autoprefixer.md';
