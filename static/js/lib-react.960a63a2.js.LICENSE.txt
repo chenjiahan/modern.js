@@ -1,6 +1,6 @@
 /**
  * @license React
- * react-dom.production.min.js
+ * react-jsx-runtime.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -20,7 +20,7 @@
 
 /**
  * @license React
- * react-jsx-runtime.production.min.js
+ * react-dom.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
