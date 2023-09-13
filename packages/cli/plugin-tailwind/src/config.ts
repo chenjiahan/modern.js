@@ -1,7 +1,7 @@
 import path from 'path';
 import { fs, applyOptionsChain, findExists } from '@modern-js/utils';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import { bundleRequire } from '@modern-js/node-bundle-require';
+import { loadConfig } from '@modern-js/utils/load-config';
 import type {
   DesignSystem,
   TailwindConfig,
@@ -43,8 +43,7 @@ export async function loadConfigFile(appDirectory: string) {
   const configFile = findExists(configs);
 
   if (configFile) {
-    const mod = await bundleRequire(configFile);
-    return mod.default || mod;
+    return loadConfig<TailwindConfig>(configFile);
   }
 
   return {};

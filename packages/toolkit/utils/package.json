@@ -34,6 +34,12 @@
       "jsnext:source": "./src/cli/constants/chainId.ts",
       "default": "./dist/cjs/cli/constants/chainId.js"
     },
+    "./load-config": {
+      "types": "./dist/types/cli/loadConfig.d.ts",
+      "jsnext:source": "./src/cli/loadConfig.ts",
+      "require": "./dist/cjs/cli/loadConfig.js",
+      "default": "./dist/esm-node/cli/loadConfig.js"
+    },
     "./runtime/router": {
       "jsnext:source": "./src/runtime/router.ts",
       "default": "./dist/esm/runtime/router.js"
@@ -121,6 +127,11 @@
         "types": "./dist/types/cli/constants/chainId.d.ts",
         "default": "./dist/cjs/cli/constants/chainId.js"
       },
+      "./load-config": {
+        "types": "./dist/types/cli/loadConfig.d.ts",
+        "require": "./dist/cjs/cli/loadConfig.js",
+        "default": "./dist/esm-node/cli/loadConfig.js"
+      },
       "./runtime/router": {
         "types": "./dist/types/runtime/router.d.ts",
         "default": "./dist/esm/runtime/router.js"
@@ -199,6 +210,9 @@
       ],
       "chain-id": [
         "./dist/types/cli/constants/chainId.d.ts"
+      ],
+      "load-config": [
+        "./dist/types/cli/loadConfig.d.ts"
       ],
       "runtime/router": [
         "./dist/types/runtime/router.d.ts"
@@ -311,6 +325,7 @@
   "dependencies": {
     "caniuse-lite": "^1.0.30001520",
     "lodash": "^4.17.21",
+    "jiti": "1.20.0",
     "serialize-javascript": "^6.0.0",
     "react-router-dom": "6.15.0",
     "@remix-run/router": "1.8.0",

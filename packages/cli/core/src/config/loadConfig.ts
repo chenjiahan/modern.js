@@ -1,17 +1,13 @@
 import path from 'path';
 import type { Stats } from 'fs';
+import { loadConfig as baseLoadConfig } from '@modern-js/utils/load-config';
 import {
-  findExists,
   fs,
+  globby,
+  findExists,
   createDebugger,
   CONFIG_FILE_EXTENSIONS,
-  CONFIG_CACHE_DIR,
-  globby,
 } from '@modern-js/utils';
-import {
-  bundleRequire,
-  defaultGetOutputFile,
-} from '@modern-js/node-bundle-require';
 
 const debug = createDebugger('load-config');
 
@@ -90,36 +86,6 @@ export const clearFilesOverTime = async (
   }
 };
 
-const bundleRequireWithCatch = async (
-  configFile: string,
-  { appDirectory }: { appDirectory: string },
-): Promise<any> => {
-  try {
-    const mod = await bundleRequire(configFile, {
-      autoClear: false,
-      getOutputFile: async (filePath: string) => {
-        const defaultOutputFileName = path.basename(
-          await defaultGetOutputFile(filePath),
-        );
-        const outputPath = path.join(appDirectory, CONFIG_CACHE_DIR);
-        // 10 min
-        const timeLimit = 10 * 60;
-        await clearFilesOverTime(outputPath, timeLimit);
-        return path.join(outputPath, defaultOutputFileName);
-      },
-    });
-
-    return mod;
-  } catch (e) {
-    if (e instanceof Error) {
-      e.message = `Get Error while loading config file: ${configFile}, please check it and retry.\n${
-        e.message || ''
-      }`;
-    }
-    throw e;
-  }
-};
-
 export const getConfigFilePath = (appDirectory: string, filePath?: string) => {
   if (filePath) {
     if (path.isAbsolute(filePath)) {
@@ -163,10 +129,7 @@ export const loadConfig = async <T>(
     config = loadedConfig;
   } else if (configFile) {
     delete require.cache[configFile];
-
-    const mod = await bundleRequireWithCatch(configFile, { appDirectory });
-
-    config = mod.default || mod;
+    config = await baseLoadConfig<T>(configFile);
   }
 
   return {

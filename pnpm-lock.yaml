@@ -93,9 +93,6 @@ importers:
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
-      jiti:
-        specifier: 1.20.0
-        version: 1.20.0
     devDependencies:
       '@modern-js/builder-rspack-provider':
         specifier: workspace:*
@@ -5378,6 +5375,9 @@ importers:
       caniuse-lite:
         specifier: ^1.0.30001520
         version: 1.0.30001520
+      jiti:
+        specifier: 1.20.0
+        version: 1.20.0
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -27950,7 +27950,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.21
-      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
       yaml: 1.10.2
     dev: true
 

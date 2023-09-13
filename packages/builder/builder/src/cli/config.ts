@@ -1,7 +1,7 @@
-import jiti from 'jiti';
 import { join } from 'path';
 import { findExists } from '@modern-js/utils';
 import { existsSync } from '@modern-js/utils/fs-extra';
+import { loadConfig as baseLoadConfig } from '@modern-js/utils/load-config';
 import type { BuilderEntry, BuilderPlugin } from '@modern-js/builder-shared';
 import type { BuilderConfig as WebpackBuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { BuilderConfig as RspackBuilderConfig } from '@modern-js/builder-rspack-provider';
@@ -22,8 +22,7 @@ export async function loadConfig(): Promise<BuilderConfig> {
   const configFile = join(process.cwd(), 'builder.config.ts');
 
   if (existsSync(configFile)) {
-    const loadConfig = jiti(__filename, { interopDefault: true });
-    return loadConfig(configFile);
+    return baseLoadConfig<BuilderConfig>(configFile);
   }
 
   return {};
