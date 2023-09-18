@@ -11,6 +11,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
     },
     "decorator": {
+      "emitMetadata": true,
       "legacy": true,
     },
     "define": {
@@ -546,6 +547,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -603,6 +605,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -727,7 +730,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         },
       },
     },
-    RspackVirtualModulePlugin {},
   ],
   "resolve": {
     "alias": {
@@ -761,6 +763,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       },
     },
     "decorator": {
+      "emitMetadata": true,
       "legacy": true,
     },
     "define": {
@@ -1296,6 +1299,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -1353,6 +1357,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -1389,6 +1394,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   },
   "name": "Client",
   "optimization": {
+    "chunkIds": "deterministic",
     "minimize": true,
     "minimizer": [
       Plugin {
@@ -1399,10 +1405,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           "exclude": undefined,
           "extractComments": "true",
           "include": undefined,
+          "keepClassNames": false,
+          "keepFnNames": false,
           "passes": 1,
           "pureFuncs": [],
           "test": undefined,
         },
+        "name": "SwcJsMinimizerRspackPlugin",
       },
       CssMinimizerPlugin {
         "options": {
@@ -1516,7 +1525,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "htmlPlugin": [Function],
       "name": "RemoveCssSourcemapPlugin",
     },
-    RspackVirtualModulePlugin {},
     InlineChunkHtmlPlugin {
       "distPath": {
         "css": "static/css",
@@ -1563,6 +1571,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       },
     },
     "decorator": {
+      "emitMetadata": true,
       "legacy": true,
     },
     "define": {
@@ -1926,6 +1935,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -1948,6 +1958,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -2054,6 +2065,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
       },
     },
     "decorator": {
+      "emitMetadata": true,
       "legacy": true,
     },
     "define": {
@@ -2597,6 +2609,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -2654,6 +2667,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -2781,7 +2795,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
         },
       },
     },
-    RspackVirtualModulePlugin {},
   ],
   "resolve": {
     "alias": {

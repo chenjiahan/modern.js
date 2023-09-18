@@ -30,3 +30,5 @@ export * from './patch';
 export * from './manifest';
 export * from './css';
 export * from './minimize';
+export * from './core-js';
+export * from './progress';

@@ -368,6 +368,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
             "options": {
               "join": [Function],
+              "sourceMap": false,
             },
           },
           {
@@ -807,6 +808,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   },
   "output": {
     "chunkFilename": "static/js/async/[name].js",
+    "devtoolModuleFilenameTemplate": [Function],
     "filename": "static/js/[name].js",
     "hashFunction": "xxhash64",
     "path": "<ROOT>/dist",
@@ -1302,6 +1304,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
             "options": {
               "join": [Function],
+              "sourceMap": false,
             },
           },
           {
@@ -2228,6 +2231,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
             "options": {
               "join": [Function],
+              "sourceMap": false,
             },
           },
           {
@@ -3026,6 +3030,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
             "options": {
               "join": [Function],
+              "sourceMap": false,
             },
           },
           {
